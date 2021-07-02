@@ -1,10 +1,13 @@
 {
   "name": "TCC_API_Typescript",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.ts",
   "repository": "https://github.com/Sobraloser/TCC_API_Typescript.git",
   "author": "Sobraloser <Asgoth55@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev" : "tsnd --respawn --transpile-only --ignore-watch node_modules src/server.ts"
+  },
   "dependencies": {
     "express": "^4.17.1"
   },
