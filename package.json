@@ -10,6 +10,7 @@
     "typeorm": "tsnd ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
@@ -17,6 +18,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.12",
     "@types/uuid": "^8.3.1",
     "ts-node-dev": "^1.1.8",
