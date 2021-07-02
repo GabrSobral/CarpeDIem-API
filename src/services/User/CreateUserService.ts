@@ -1,5 +1,5 @@
 import { getCustomRepository } from "typeorm";
-import { UserRepository } from "../../repositories/UserRepository";
+import UserRepository from "../../repositories/UserRepository";
 import { hash } from 'bcryptjs'
 
 interface User {
@@ -10,9 +10,7 @@ interface User {
 
 class CreateUserService{
   async execute({name, email, password}: User){
-    const userRepository = getCustomRepository(UserRepository)
-    
-    const userAlreadyExists = await userRepository.findOne({email})
+    const userAlreadyExists = await UserRepository.findOne({email})
 
     if(userAlreadyExists){
       throw new Error("User Already exists")
@@ -24,13 +22,13 @@ class CreateUserService{
       console.log("encrypted password", hash)
     })
 
-    const user = userRepository.create({
+    const user = UserRepository.create({
       name,
       email,
       password: String(encryptedPassword)
     })
     console.log(user)
-    await userRepository.save(user)
+    await UserRepository.save(user)
 
     user.password = ""
     return user
