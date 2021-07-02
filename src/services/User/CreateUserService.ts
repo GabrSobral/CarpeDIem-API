@@ -6,9 +6,9 @@ interface User {
   name: string;
   email: string;
   password: string;
-}
+};
 
-export class CreateUserService{
+class CreateUserService{
   async execute({name, email, password}: User){
     const userRepository = getCustomRepository(UserRepository)
     
@@ -35,4 +35,6 @@ export class CreateUserService{
     user.password = ""
     return user
   }
-}
+};
+
+export default new CreateUserService();
