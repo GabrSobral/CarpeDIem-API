@@ -18,7 +18,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @CreateDateColumn()
@@ -28,8 +28,8 @@ export class User {
   updated_at: string;
 
   constructor(){
-    if(!this.password){
-      this.password = uuid();
+    if(!this.id){
+      this.id = uuid();
     }
   }
 }

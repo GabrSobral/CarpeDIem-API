@@ -10,29 +10,23 @@ interface User {
 
 class CreateUserService{
   async execute({name, email, password}: User){
-    const userRepository = getCustomRepository(UserRepository)
-    
-    const userAlreadyExists = await userRepository.findOne({email})
+    const repository = getCustomRepository(UserRepository)
+    const userAlreadyExists = await repository.findOne({email})
 
     if(userAlreadyExists){
       throw new Error("User Already exists")
     }
-    const encryptedPassword = hash(password, 10, (error, hash) => {
-      if(error){
-        throw new Error(error.message)
-      }
-      console.log("encrypted password", hash)
-    })
+    const encryptedPassword = await hash(password, 10)
 
-    const user = userRepository.create({
+    const user = repository.create({
       name,
       email,
-      password: String(encryptedPassword)
+      password: encryptedPassword
     })
-    console.log(user)
-    await userRepository.save(user)
+    await repository.save(user)
 
-    user.password = ""
+    delete user.password
+
     return user
   }
 };
