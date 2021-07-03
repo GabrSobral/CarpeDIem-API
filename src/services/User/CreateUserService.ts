@@ -18,9 +18,11 @@ class CreateUserService{
     }
     const encryptedPassword = await hash(password, 10)
 
+    const lowercaseEmail = email.toLowerCase()
+
     const user = repository.create({
       name,
-      email,
+      email: lowercaseEmail,
       password: encryptedPassword
     })
     await repository.save(user)
