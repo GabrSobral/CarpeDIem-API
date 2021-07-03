@@ -16,13 +16,13 @@ class AuthenticateUser {
 
     const user = await repository.findOne(
       { email }, 
-      { select: ["password", 'email', 'name', 'created_at', 'updated_at'] })
+      { select: ["id", "password", 'email', 'name', 'created_at', 'updated_at'] })
 
     if(!user){
-      throw new Error("Email/password invalid aaaaa status:400")
+      throw new Error("Email/password invalid status:400")
     }
     if(!await compare(password, user.password)){
-      throw new Error('Email/password invalid bbbb status:400')
+      throw new Error('Email/password invalid status:400')
     }
     
     const token = sign(

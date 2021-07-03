@@ -14,7 +14,7 @@ class CreateUserService{
     const userAlreadyExists = await repository.findOne({email})
 
     if(userAlreadyExists){
-      throw new Error("User Already exists")
+      throw new Error("User Already exists status:400")
     }
     const encryptedPassword = await hash(password, 10)
 
