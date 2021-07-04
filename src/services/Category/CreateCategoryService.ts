@@ -1,5 +1,5 @@
 import { getCustomRepository } from "typeorm"
-import { CategoryReposiroty } from "../../repositories/CategoryRepository"
+import { CategoryRepository } from "../../repositories/CategoryRepository"
 
 interface CreateCategoruService {
   name: string;
@@ -7,7 +7,7 @@ interface CreateCategoruService {
 
 class CreateCategoryService{
   async execute({ name }: CreateCategoruService){
-    const repository = getCustomRepository(CategoryReposiroty)
+    const repository = getCustomRepository(CategoryRepository)
     const categoryAlreadyExists = await repository.findOne({ name })
 
     if(categoryAlreadyExists){
