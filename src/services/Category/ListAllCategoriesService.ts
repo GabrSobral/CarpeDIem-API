@@ -1,7 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import { CategoryRepository } from "../../repositories/CategoryRepository";
 
-class ListAllCategories {
+class ListAllCategoriesService {
   async execute(){
     const repository = getCustomRepository(CategoryRepository)
 
@@ -10,4 +10,4 @@ class ListAllCategories {
     return allCategories
   }
 }
-export default new ListAllCategories()
+export default new ListAllCategoriesService()
