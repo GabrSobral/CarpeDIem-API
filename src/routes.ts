@@ -1,4 +1,5 @@
 import { Router } from "express";
+import CreateActivityController from "./controllers/Activity/CreateActivityController";
 import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
 import CreateCategoryController from "./controllers/Category/CreateCategoryController";
 import ListAllCategoriesController from "./controllers/Category/ListAllCategoriesController";
@@ -15,7 +16,7 @@ routes.post('/users', CreateUserController.handle)
 routes.get('/users', CheckAuth, ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 
-routes.post('/activity/new', CreateUserController.handle)
+routes.post('/activity/new', CreateActivityController.handle)
 routes.get('/activity/list', ListAllActivitiesController.handle)
 
 routes.post('/category/new', CreateCategoryController.handle)

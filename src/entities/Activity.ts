@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { Category } from "./Category";
 
-@Entity()
+@Entity('activities')
 export class Activity {
   @PrimaryColumn()
   id: string;
@@ -14,7 +14,7 @@ export class Activity {
   description: string;
 
   @Column()
-  category: string
+  category: string;
 
   @JoinColumn({ name: 'category' })
   @ManyToOne(() => Category)

@@ -1,10 +1,10 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { Activity } from "./Activity";
 
-import { Category } from "./Category";
 import { User } from "./User";
 
-@Entity()
+@Entity('activities_of_the_day')
 export class ActivitiesOfTheDay {
   @PrimaryColumn()
   id: string;
@@ -13,8 +13,8 @@ export class ActivitiesOfTheDay {
   activity: string;
 
   @JoinColumn({ name: 'activity' })
-  @ManyToOne( () => Category )
-  JoinActivity: Category
+  @ManyToOne( () => Activity )
+  JoinActivity: Activity
 
   @Column()
   destined_to: string;
