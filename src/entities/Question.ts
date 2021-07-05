@@ -2,16 +2,13 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { Category } from "./Category";
 
-@Entity('activities')
-export class Activity {
+@Entity('questions')
+export class Question {
   @PrimaryColumn()
   id: string;
 
   @Column()
-  title: string;
-
-  @Column()
-  description: string;
+  body: string;
 
   @Column()
   category: string;

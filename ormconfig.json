@@ -6,6 +6,7 @@
   "password": "postgres",
   "database": "tcc",
   "logging": false,
+  "synchronize": false,
   "entities": [
      "src/entities/*.ts"
   ],

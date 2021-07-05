@@ -24,7 +24,6 @@ export function CheckAuth(request: Request, response: Response, next: NextFuncti
     if(error) throw new Error(error.message)
 
     request.user_id = decode.sub
-    console.log(request.user_id)
   })
 
   next()

@@ -6,7 +6,7 @@
   "author": "Sobraloser <Asgoth55@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev": "tsnd --inspect --respawn --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "tsnd ./node_modules/typeorm/cli.js"
   },
   "dependencies": {

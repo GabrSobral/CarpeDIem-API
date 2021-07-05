@@ -7,6 +7,11 @@ export class CreateActivitiesOfTheDay1625422935983 implements MigrationInterface
 				name: "activities_of_the_day",
         columns: [
           {
+            name: "id",
+            type: 'uuid',
+            isPrimary: true
+          },
+          {
             name: "activity",
             type: "uuid"
           },
