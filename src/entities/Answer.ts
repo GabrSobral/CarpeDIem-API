@@ -1,8 +1,9 @@
-import { Column, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { Category } from "./Category";
 import { Question } from "./Question";
 import { User } from "./User";
 
+@Entity('answers')
 export class Answer {
   @PrimaryColumn()
   user: string;

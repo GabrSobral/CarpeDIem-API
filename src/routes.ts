@@ -1,8 +1,13 @@
 import { Router } from "express";
 import CreateActivityController from "./controllers/Activity/CreateActivityController";
 import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
+
+import CreateAnswerController from "./controllers/Answer/CreateAnswerController";
+import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
+
 import CreateCategoryController from "./controllers/Category/CreateCategoryController";
 import ListAllCategoriesController from "./controllers/Category/ListAllCategoriesController";
+
 import CreateQuestionController from "./controllers/Question/CreateQuestionController";
 import ListAllQuestionsController from "./controllers/Question/ListAllQuestionsController";
 
@@ -26,5 +31,8 @@ routes.get('/category/list', ListAllCategoriesController.handle)
 
 routes.post('/question/new', CreateQuestionController.handle)
 routes.get('/question/list', ListAllQuestionsController.handle)
+
+routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
+routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
 export { routes }
