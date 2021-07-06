@@ -31,19 +31,25 @@ export class CreateAnswer1625509577124 implements MigrationInterface {
 						name: "FKAnswerUser",
 						columnNames: ["user"],
 						referencedTableName: "users",
-						referencedColumnNames: ['id']
+						referencedColumnNames: ['id'],
+						onDelete: 'cascade',
+						onUpdate: 'cascade'
 					},
 					{
 						name: "FKAnswerQuestion",
 						columnNames: ["question"],
 						referencedTableName: "questions",
-						referencedColumnNames: ['id']
+						referencedColumnNames: ['id'],
+						onDelete: 'cascade',
+						onUpdate: 'cascade'
 					},
 					{
 						name: "FKAnswerCategory",
 						columnNames: ["category"],
 						referencedTableName: "categories",
-						referencedColumnNames: ['id']
+						referencedColumnNames: ['id'],
+						onDelete: 'cascade',
+						onUpdate: 'cascade'
 					},
 				]
 			})

@@ -31,12 +31,16 @@ export class CreateActivitiesOfTheDay1625422935983 implements MigrationInterface
             columnNames: ["activity"],
             referencedTableName: "activities",
             referencedColumnNames: ["id"],
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
           },
           {
             name: "FKUserDestinedTo",
             columnNames: ["destined_to"],
             referencedTableName: "users",
-            referencedColumnNames: ["id"]
+            referencedColumnNames: ["id"],
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
           }
         ]
 			})

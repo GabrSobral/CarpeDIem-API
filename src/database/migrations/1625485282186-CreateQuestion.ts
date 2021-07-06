@@ -26,7 +26,9 @@ export class CreateQuestion1625485282186 implements MigrationInterface {
               name: 'FKQuestionsCategories',
               columnNames: ['category'],
               referencedTableName: "categories",
-              referencedColumnNames: ["id"]
+              referencedColumnNames: ["id"],
+              onDelete: 'cascade',
+              onUpdate: 'cascade'
             }
           ]
         }
