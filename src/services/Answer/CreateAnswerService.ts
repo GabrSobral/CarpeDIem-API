@@ -4,12 +4,11 @@ import { QuestionRepository } from "../../repositories/QuestionRepository";
 
 interface CreateAnswerServiceProps {
   user: string;
-  question: string;
   answer: string[];
 }
 
 class CreateAnswerService {
-  async execute({ user, question, answer }: CreateAnswerServiceProps){
+  async execute({ user, answer }: CreateAnswerServiceProps){
     const answerRepository = getCustomRepository(AnswerRepository)
     const questionRepository = getCustomRepository(QuestionRepository)
 
