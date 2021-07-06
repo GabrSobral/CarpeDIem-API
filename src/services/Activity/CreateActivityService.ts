@@ -5,13 +5,14 @@ interface CreateActivityServiceProps {
   title: string;
   description: string;
   category: string;
+  body: string;
 }
 
 class CreateActitivityService {
-  async execute({ title, description, category }: CreateActivityServiceProps){
+  async execute({ title, description, category, body }: CreateActivityServiceProps){
     const repository = getCustomRepository(ActivityRepository)
 
-    const activity = repository.create({ title, description, category })
+    const activity = repository.create({ title, description, category, body })
     await repository.save(activity)
 
     return activity

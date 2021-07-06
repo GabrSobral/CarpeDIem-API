@@ -1,4 +1,8 @@
 import { Router } from "express";
+
+import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
+import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
+
 import CreateActivityController from "./controllers/Activity/CreateActivityController";
 import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
 
@@ -25,6 +29,9 @@ routes.post('/login', AuthenticateUserController.handle)
 
 routes.post('/activity/new', CreateActivityController.handle)
 routes.get('/activity/list', ListAllActivitiesController.handle)
+
+routes.get('/activity/my-list', CheckAuth, ListMyActivitiesController.handle)
+routes.get('/activity/get-activities', CheckAuth, ListActivitiesForMeController.handle)
 
 routes.post('/category/new', CreateCategoryController.handle)
 routes.get('/category/list', ListAllCategoriesController.handle)

@@ -1,7 +1,7 @@
 # Carpe Diem API Typescript
  (`This project is in development yet`).
 
-I'building this API to my course, because I have one last work to present, and show the skills that I learned in the course.
+I'm building this API to my course, because I have one last work to present, and show the skills that I learned in the course.
 
 ## Technologies
 
