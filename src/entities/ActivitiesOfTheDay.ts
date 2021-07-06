@@ -13,14 +13,14 @@ export class ActivitiesOfTheDay {
   activity: string;
 
   @JoinColumn({ name: 'activity' })
-  @ManyToOne( () => Activity )
+  @ManyToOne( () => Activity, { cascade: true } )
   JoinActivity: Activity
 
   @Column()
   destined_to: string;
 
   @JoinColumn({ name: 'destined_to' })
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { cascade: true })
   JoinDestinedTo: User;
 
   @CreateDateColumn()
