@@ -28,7 +28,7 @@ class AuthenticateUser {
     const token = sign(
       { id: user.id },
       process.env.TOKEN_SECRET,
-      { expiresIn: '1h', subject: user.id }
+      { expiresIn: 86400, subject: user.id }
     )
     delete user.password
 
