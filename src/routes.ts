@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { parser } from "./config/multer";
 
 import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
@@ -8,6 +9,7 @@ import ListAllActivitiesController from "./controllers/Activity/ListAllActivitie
 
 import CreateAnswerController from "./controllers/Answer/CreateAnswerController";
 import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
+import CreateArchiveController from "./controllers/Archive/CreateArchiveController";
 
 import CreateCategoryController from "./controllers/Category/CreateCategoryController";
 import ListAllCategoriesController from "./controllers/Category/ListAllCategoriesController";
@@ -41,5 +43,8 @@ routes.get('/question/list', ListAllQuestionsController.handle)
 
 routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
+
+routes.post('/archive/new', parser, CreateArchiveController.handle)
+
 
 export { routes }
