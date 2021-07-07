@@ -4,9 +4,9 @@ import { NextFunction, Request, Response } from "express";
 
 const cloudinaryConfig = (request: Request, response: Response, next: NextFunction) => {
   cloudinary.config({
-    cloud_name: "dmv19qtjb",
-    api_key: "716997555334137",
-    api_secret: "HGCguNY9v3_kkiScbRZb_fWtb6A",
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true
   })
 
