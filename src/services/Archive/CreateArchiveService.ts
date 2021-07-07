@@ -1,7 +1,6 @@
 import { getCustomRepository } from "typeorm"
-import { cloudinary } from "../../config/cloudinary";
 import { ArchiveRepository } from "../../repositories/ArchiveRepository"
-import fs from 'fs'
+import handleUploadFile from "./handleUploadFile";
 
 interface ArchiveProps{
   name: string;
@@ -19,13 +18,8 @@ class CreateArchiveService {
     if(!author) {throw new Error('No author detected status:400')}
     
     const repository = getCustomRepository(ArchiveRepository)
-    
-    cloudinary.uploader.upload(
-      files.path,
-      { resource_type: "auto", overwrite: true },
-      (error, result) => {
-        if(error) {throw new Error(`Error: ${error.message} status:500`)}
-    });
+
+    await handleUploadFile(files)
 
     const archive = repository.create({
       name, author, description, url: files.path
