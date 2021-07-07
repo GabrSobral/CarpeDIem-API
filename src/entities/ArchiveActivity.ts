@@ -3,7 +3,7 @@ import { Activity } from "./Activity";
 import { Archive } from "./Archive";
 import { Category } from "./Category";
 
-@Entity('archives')
+@Entity('archives_activities')
 export class ArchiveActivity {
   @PrimaryColumn()
   archive: string;
