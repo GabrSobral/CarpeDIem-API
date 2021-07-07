@@ -14,7 +14,7 @@ export class Question {
   category: string;
 
   @JoinColumn({ name: 'category' })
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { cascade: true })
   JoinCategory: Category;
 
   constructor(){

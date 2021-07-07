@@ -3,9 +3,11 @@ import CreateActivityService from "../../services/Activity/CreateActivityService
 
 class CreateActivityController {
   async handle(request: Request, response: Response){
-    const { title, description, category } = request.body
+    const { title, description, category, body } = request.body
 
-    const activity = await CreateActivityService.execute({ title, description, category })
+    const activity = await CreateActivityService.execute(
+      { title, description, category, body }
+    )
 
     return response.json(activity)
   }

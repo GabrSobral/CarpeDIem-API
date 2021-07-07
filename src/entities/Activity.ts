@@ -14,10 +14,13 @@ export class Activity {
   description: string;
 
   @Column()
+  body: string;
+
+  @Column()
   category: string;
 
   @JoinColumn({ name: 'category' })
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { cascade: true })
   JoinCategory: Category;
 
   constructor(){

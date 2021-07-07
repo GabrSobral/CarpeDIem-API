@@ -8,7 +8,9 @@ export class AlterActivityForeignKey1625445635186 implements MigrationInterface 
         name: 'FKActivityCategory',
         columnNames: ["category"],
         referencedColumnNames: ['id'],
-        referencedTableName: "categories"
+        referencedTableName: "categories",
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       })
     )
   }

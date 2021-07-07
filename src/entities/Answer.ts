@@ -9,21 +9,21 @@ export class Answer {
   user: string;
 
   @JoinColumn({ name: "user" })
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { cascade: true })
   JoinUser: User;
 
   @PrimaryColumn()
   question: string;
 
   @JoinColumn({ name: "question" })
-  @ManyToOne(() => Question)
+  @ManyToOne(() => Question, { cascade: true })
   JoinQuestion: Question;
 
   @PrimaryColumn()
   category: string;
 
   @JoinColumn({ name: "category" })
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { cascade: true })
   JoinCategory: Category;
 
   @Column()

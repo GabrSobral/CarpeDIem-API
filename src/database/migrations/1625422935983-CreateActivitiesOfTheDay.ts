@@ -7,22 +7,19 @@ export class CreateActivitiesOfTheDay1625422935983 implements MigrationInterface
 				name: "activities_of_the_day",
         columns: [
           {
-            name: "id",
-            type: 'uuid',
+            name: "activity",
+            type: "uuid",
             isPrimary: true
           },
           {
-            name: "activity",
-            type: "uuid"
-          },
-          {
             name: "destined_to",
-            type: "uuid"
+            type: "uuid",
+            isPrimary: true
           },
           {
             name: "date",
             type: "timestamp",
-            default: "now()"
+            default: 'now()'
           }
         ],
         foreignKeys: [
@@ -31,12 +28,16 @@ export class CreateActivitiesOfTheDay1625422935983 implements MigrationInterface
             columnNames: ["activity"],
             referencedTableName: "activities",
             referencedColumnNames: ["id"],
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
           },
           {
             name: "FKUserDestinedTo",
             columnNames: ["destined_to"],
             referencedTableName: "users",
-            referencedColumnNames: ["id"]
+            referencedColumnNames: ["id"],
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
           }
         ]
 			})
