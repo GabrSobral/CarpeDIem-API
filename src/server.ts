@@ -12,6 +12,6 @@ const app = express();
 
 app.use(express.json())
 app.use(routes)
-// app.use(ErrorCatcher)
+app.use(ErrorCatcher)
 
 app.listen(PORT, () => console.log(`Server Started at port ${PORT}`));

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { parser } from "./config/multer";
+import { upload } from "./config/multer";
 
 import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
@@ -44,7 +44,6 @@ routes.get('/question/list', ListAllQuestionsController.handle)
 routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
-routes.post('/archive/new', parser, CreateArchiveController.handle)
-
+routes.post('/archive/new', upload, CreateArchiveController.handle)
 
 export { routes }
