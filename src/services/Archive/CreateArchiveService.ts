@@ -12,11 +12,11 @@ interface ArchiveProps{
 
 class CreateArchiveService {
   async execute({ name, author, description = null, files }: ArchiveProps){
-    if(!files) throw new Error('No File detected status:400')
+    if(!files) {throw new Error('No File detected status:400')}
 
-    if(!name) throw new Error('No name detected status:400')
+    if(!name) {throw new Error('No name detected status:400')}
 
-    if(!author) throw new Error('No author detected status:400')
+    if(!author) {throw new Error('No author detected status:400')}
     
     const repository = getCustomRepository(ArchiveRepository)
     
@@ -24,7 +24,7 @@ class CreateArchiveService {
       files.path,
       { resource_type: "auto", overwrite: true },
       (error, result) => {
-        if(error) throw new Error(`Error: ${error.message} status:500`)
+        if(error) {throw new Error(`Error: ${error.message} status:500`)}
     });
 
     const archive = repository.create({
