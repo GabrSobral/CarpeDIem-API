@@ -15,14 +15,21 @@ class CreateArchiveActivityService {
     const repository = getCustomRepository(ArchiveActivityRepository)
     const activityRepository = getCustomRepository(ActivityRepository)
 
-    const activity = await activityRepository.findOne(activity_id)
+    const activity = await activityRepository
+    .createQueryBuilder('activity')
+    .where("activity.id = :id", { id: activity_id })
+    .getOne()
+
     const category = activity.category
 
     const archiveActivity = repository.create({
-      activity: activity_id,
       archive: archive_id,
+      activity: activity_id,
       category
     })
+
+    console.log(archiveActivity)
+
     await repository.save(archiveActivity)
 
     return archiveActivity

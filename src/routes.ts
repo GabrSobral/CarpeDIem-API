@@ -10,6 +10,7 @@ import ListAllActivitiesController from "./controllers/Activity/ListAllActivitie
 import CreateAnswerController from "./controllers/Answer/CreateAnswerController";
 import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
 import CreateArchiveController from "./controllers/Archive/CreateArchiveController";
+import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 
 import CreateCategoryController from "./controllers/Category/CreateCategoryController";
 import ListAllCategoriesController from "./controllers/Category/ListAllCategoriesController";
@@ -45,5 +46,6 @@ routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
 routes.post('/archive/new', upload, CreateArchiveController.handle)
+routes.post('/archive-activity/new', CreateArchiveActivityController.handle)
 
 export { routes }
