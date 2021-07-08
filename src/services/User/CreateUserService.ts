@@ -1,6 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../../repositories/UserRepository";
 import { hash } from 'bcryptjs'
+import handleGenerateToken from "./handleGenerateToken";
 
 interface User {
   name: string;
@@ -27,9 +28,10 @@ class CreateUserService{
     })
     await repository.save(user)
 
+    const token = handleGenerateToken(user)
     delete user.password
 
-    return user
+    return { user, token }
   }
 };
 

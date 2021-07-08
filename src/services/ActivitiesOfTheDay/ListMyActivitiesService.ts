@@ -1,5 +1,6 @@
 import { getCustomRepository } from "typeorm";
 import { ActivitiesOfTheDayRepository } from "../../repositories/ActivitiesOfTheDayRepository";
+import handlePutFilesInActivities from "./ListActivitiesForMeService/handlePutFilesInActivities";
 
 class ListMyActivitiesService {
   async execute(user: String){
@@ -8,9 +9,14 @@ class ListMyActivitiesService {
     const myActivities = await repository
     .createQueryBuilder('activity')
     .where("activity.destined_to = :user", { user })
+    .leftJoinAndSelect('activity.JoinActivity', 'JoinActivity')
     .getMany()
 
-    return myActivities
+    const activities = myActivities.map(item => item.JoinActivity)
+
+    const myActivitiesFormatted = await handlePutFilesInActivities(activities)
+
+    return myActivitiesFormatted
   }
 }
 export default new ListMyActivitiesService()

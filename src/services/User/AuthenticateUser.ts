@@ -2,6 +2,7 @@ import { compare } from "bcryptjs"
 import { sign } from "jsonwebtoken"
 import { getCustomRepository } from "typeorm"
 import { UserRepository } from "../../repositories/UserRepository"
+import handleGenerateToken from "./handleGenerateToken"
 
 interface IAuthenticateUser {
   email: string;
@@ -25,11 +26,7 @@ class AuthenticateUser {
       throw new Error('Email/password invalid status:400')
     }
     
-    const token = sign(
-      { id: user.id },
-      process.env.TOKEN_SECRET,
-      { expiresIn: 86400, subject: user.id }
-    )
+    const token = handleGenerateToken(user)
     delete user.password
 
     return { user, token }
