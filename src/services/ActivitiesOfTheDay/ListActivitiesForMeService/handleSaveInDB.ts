@@ -1,9 +1,10 @@
 import { ActivitiesOfTheDay } from "../../../entities/ActivitiesOfTheDay"
 import { Activity } from "../../../entities/Activity"
+import { User } from "../../../entities/User"
 import handleGetRepositories from "../../../utils/handleGetRepositories"
 
-class handleSaveActivitiesInDB {
-  async execute(orderedActivities: Activity[], user: string){
+class handleSaveInDB {
+  async activities(orderedActivities: Activity[], user: string){
     const { activitiesOfTheDayRepository } = handleGetRepositories()
     const currentDate = new Date().toUTCString()
     
@@ -24,5 +25,10 @@ class handleSaveActivitiesInDB {
       await activitiesOfTheDayRepository.save(activitiesOfTheDay)
     }
   }
+  async users(user: User){
+    const { userRepository } = handleGetRepositories()
+    user.activities_finished_today = 0
+    await userRepository.save(user)
+  }
 }
-export default new handleSaveActivitiesInDB().execute
+export default new handleSaveInDB()

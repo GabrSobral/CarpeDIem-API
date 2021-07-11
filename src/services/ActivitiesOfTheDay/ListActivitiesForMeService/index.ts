@@ -1,8 +1,10 @@
 import { Activity } from "../../../entities/Activity"
+
 import handleGetRepositories from "../../../utils/handleGetRepositories"
 import handlePutFilesInActivities from "./handlePutFilesInActivities"
 import handleRandomCategory from "./handleRandomCategory"
-import handleSaveActivitiesInDB from "./handleSaveActivitiesInDB"
+import handleSaveInDB from "./handleSaveInDB"
+import handleVerifyActivityValidity from "./handleVerifyActivityValidity"
 
 class ListActivitiesForMeService{
   async execute(user: string){
@@ -17,36 +19,9 @@ class ListActivitiesForMeService{
       userRepository, 
       answerRepository, 
       activitiesRepository,
-      activitiesOfTheDayRepository
     } = handleGetRepositories()
 
-    const activityOfTheDay = await activitiesOfTheDayRepository
-    .createQueryBuilder('activity')
-    .where('activity.destined_to = :user', { user })
-    .getMany()
-
-    const currentDate = new Date()
-
-    // const validityDate = new Date(
-    //   activityOfTheDay[0].date.getFullYear(),     //year
-    //   activityOfTheDay[0].date.getMonth(),        //month
-    //   activityOfTheDay[0].date.getDate() + 1,     //day
-    //   0,                                          //hours
-    //   1,                                          //minutes
-    //   0                                           //seconds
-    // )
-
-    const OneMinute = new Date(
-      activityOfTheDay[0].date.getFullYear(),
-      activityOfTheDay[0].date.getMonth(),
-      activityOfTheDay[0].date.getDate(),
-      activityOfTheDay[0].date.getHours(),
-      activityOfTheDay[0].date.getMinutes() + 1,
-      activityOfTheDay[0].date.getSeconds()
-    )
-
-    if( currentDate.getTime() < OneMinute.getTime() )
-        throw new Error("You already request the activities, try again tomorrow")
+    await handleVerifyActivityValidity(user)
 
     const userData = await userRepository.findOne(user)
 
@@ -100,7 +75,8 @@ class ListActivitiesForMeService{
     
     const orderedActivitiesWithFiles = await handlePutFilesInActivities(orderedActivities)
 
-    await handleSaveActivitiesInDB(orderedActivities, user)
+    await handleSaveInDB.activities(orderedActivities, user)
+    await handleSaveInDB.users(userData)
     
     return orderedActivitiesWithFiles
   }
