@@ -6,7 +6,6 @@ import handleSaveActivitiesInDB from "./handleSaveActivitiesInDB"
 
 class ListActivitiesForMeService{
   async execute(user: string){
-    const quantityOfActivitiesInList = 2
     const filteredActivities = [] as Activity[]
     const orderedActivities = [] as Activity[]
     const includedActivityIndex = [] as number[]
@@ -52,6 +51,7 @@ class ListActivitiesForMeService{
     const userData = await userRepository.findOne(user)
 
     if(!userData){ throw new Error("User not found status:400") }
+    const quantityOfActivitiesInList = userData.quantity_of_activities
     
     const userAnswers = await answerRepository
     .createQueryBuilder("answer")
