@@ -24,6 +24,12 @@ export class User {
   @Column()
   quantity_of_activities: number;
 
+  @Column()
+  activities_finished_today: number;
+
+  @Column()
+  all_activities_finished: number;
+
   @CreateDateColumn()
   created_at: string;
 
