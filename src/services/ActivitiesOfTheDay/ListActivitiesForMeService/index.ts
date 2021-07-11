@@ -17,8 +17,37 @@ class ListActivitiesForMeService{
     const { 
       userRepository, 
       answerRepository, 
-      activitiesRepository,  
+      activitiesRepository,
+      activitiesOfTheDayRepository
     } = handleGetRepositories()
+
+    const activityOfTheDay = await activitiesOfTheDayRepository
+    .createQueryBuilder('activity')
+    .where('activity.destined_to = :user', { user })
+    .getMany()
+
+    const currentDate = new Date()
+
+    // const validityDate = new Date(
+    //   activityOfTheDay[0].date.getFullYear(),     //year
+    //   activityOfTheDay[0].date.getMonth(),        //month
+    //   activityOfTheDay[0].date.getDate() + 1,     //day
+    //   0,                                          //hours
+    //   1,                                          //minutes
+    //   0                                           //seconds
+    // )
+
+    const OneMinute = new Date(
+      activityOfTheDay[0].date.getFullYear(),
+      activityOfTheDay[0].date.getMonth(),
+      activityOfTheDay[0].date.getDate(),
+      activityOfTheDay[0].date.getHours(),
+      activityOfTheDay[0].date.getMinutes() + 1,
+      activityOfTheDay[0].date.getSeconds()
+    )
+
+    if( currentDate.getTime() < OneMinute.getTime() )
+        throw new Error("You already request the activities, try again tomorrow")
 
     const userData = await userRepository.findOne(user)
 
