@@ -1,5 +1,4 @@
-import { getCustomRepository } from "typeorm"
-import { ActivityRepository } from "../../repositories/ActivityRepository."
+import handleGetRepositories from "../../utils/handleGetRepositories"
 
 interface CreateActivityServiceProps {
   title: string;
@@ -10,10 +9,10 @@ interface CreateActivityServiceProps {
 
 class CreateActitivityService {
   async execute({ title, description, category, body }: CreateActivityServiceProps){
-    const repository = getCustomRepository(ActivityRepository)
+    const { activitiesRepository } = handleGetRepositories()
 
-    const activity = repository.create({ title, description, category, body })
-    await repository.save(activity)
+    const activity = activitiesRepository.create({ title, description, category, body })
+    await activitiesRepository.save(activity)
 
     return activity
   }

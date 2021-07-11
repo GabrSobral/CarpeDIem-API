@@ -1,5 +1,4 @@
-import { getCustomRepository } from "typeorm"
-import { QuestionRepository } from "../../repositories/QuestionRepository"
+import handleGetRepositories from "../../utils/handleGetRepositories"
 
 interface CreateQuestionServiceProps {
   body: string;
@@ -8,10 +7,10 @@ interface CreateQuestionServiceProps {
 
 class CreateQuestionService {
   async execute({ body, category }: CreateQuestionServiceProps){
-    const repository = getCustomRepository(QuestionRepository)
+    const { questionRepository } = handleGetRepositories()
 
-    const question = repository.create({ body, category })
-    repository.save(question)
+    const question = questionRepository.create({ body, category })
+    questionRepository.save(question)
 
     return question
   }

@@ -1,6 +1,4 @@
-import { getCustomRepository } from "typeorm";
-import { AnswerRepository } from "../../repositories/AnswerRepository";
-import { QuestionRepository } from "../../repositories/QuestionRepository";
+import handleGetRepositories from "../../utils/handleGetRepositories";
 
 interface CreateAnswerServiceProps {
   user: string;
@@ -9,8 +7,7 @@ interface CreateAnswerServiceProps {
 
 class CreateAnswerService {
   async execute({ user, answer }: CreateAnswerServiceProps){
-    const answerRepository = getCustomRepository(AnswerRepository)
-    const questionRepository = getCustomRepository(QuestionRepository)
+    const { answerRepository, questionRepository } = handleGetRepositories()
 
     const questions = await questionRepository.find()
 

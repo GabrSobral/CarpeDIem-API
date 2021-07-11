@@ -1,14 +1,11 @@
-import { getCustomRepository } from "typeorm";
-import { ActivityRepository } from "../../repositories/ActivityRepository.";
-import { ArchiveActivityRepository } from "../../repositories/ArchiveActivityRepository";
+import handleGetRepositories from "../../utils/handleGetRepositories";
 
 class ListAllActivitiesService {
   async execute(){
-    const repository = getCustomRepository(ActivityRepository)
-    const archiveActivityRepository = getCustomRepository(ArchiveActivityRepository)
+    const { activitiesRepository, archiveActivityRepository } = handleGetRepositories()
 
     const allArchivesActivities = await archiveActivityRepository.find({ relations: ['JoinArchive', 'JoinActivity', 'JoinCategory'] })
-    const allArchives = await repository.find()
+    const allArchives = await activitiesRepository.find()
 
     const allFormattedActivities = allArchives.map(item => {
       const allFiles = allArchivesActivities.filter(element => element.JoinActivity.id === item.id)

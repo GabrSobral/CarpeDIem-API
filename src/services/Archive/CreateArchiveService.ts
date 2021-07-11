@@ -1,5 +1,4 @@
-import { getCustomRepository } from "typeorm"
-import { ArchiveRepository } from "../../repositories/ArchiveRepository"
+import handleGetRepositories from "../../utils/handleGetRepositories";
 import handleUploadFile from "./handleUploadFile";
 
 interface ArchiveProps{
@@ -17,14 +16,14 @@ class CreateArchiveService {
 
     if(!author) {throw new Error('No author detected status:400')}
     
-    const repository = getCustomRepository(ArchiveRepository)
+    const { archiveRepository } = handleGetRepositories()
 
     await handleUploadFile(files)
 
-    const archive = repository.create({
+    const archive = archiveRepository.create({
       name, author, description, url: files.path
     })
-    await repository.save(archive)
+    await archiveRepository.save(archive)
 
     return archive
   }

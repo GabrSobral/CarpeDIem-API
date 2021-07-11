@@ -1,10 +1,9 @@
-import { getCustomRepository } from "typeorm";
-import { UserRepository } from "../../repositories/UserRepository";
+import handleGetRepositories from "../../utils/handleGetRepositories";
 
 class ListUserService{ 
   async execute(){
-    const repository = getCustomRepository(UserRepository)
-    const users = await repository.find()
+    const { userRepository } = handleGetRepositories()
+    const users = await userRepository.find()
 
     return users
   }

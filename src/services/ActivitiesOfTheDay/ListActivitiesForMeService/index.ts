@@ -1,5 +1,5 @@
 import { Activity } from "../../../entities/Activity"
-import handleGetRepositories from "./handleGetRepositories"
+import handleGetRepositories from "../../../utils/handleGetRepositories"
 import handlePutFilesInActivities from "./handlePutFilesInActivities"
 import handleRandomCategory from "./handleRandomCategory"
 import handleSaveActivitiesInDB from "./handleSaveActivitiesInDB"

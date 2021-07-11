@@ -1,5 +1,4 @@
-import { getCustomRepository } from "typeorm"
-import { CategoryRepository } from "../../repositories/CategoryRepository"
+import handleGetRepositories from "../../utils/handleGetRepositories"
 
 interface CreateCategoruService {
   name: string;
@@ -7,14 +6,14 @@ interface CreateCategoruService {
 
 class CreateCategoryService{
   async execute({ name }: CreateCategoruService){
-    const repository = getCustomRepository(CategoryRepository)
-    const categoryAlreadyExists = await repository.findOne({ name })
+    const { categoryRepository } = handleGetRepositories()
+    const categoryAlreadyExists = await categoryRepository.findOne({ name })
 
     if(categoryAlreadyExists){
       throw new Error("Category already exists status:400")
     }
-    const category = repository.create({ name })
-    await repository.save(category)
+    const category = categoryRepository.create({ name })
+    await categoryRepository.save(category)
 
     return category
   }

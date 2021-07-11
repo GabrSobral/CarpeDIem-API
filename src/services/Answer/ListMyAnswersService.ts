@@ -1,5 +1,4 @@
-import { getCustomRepository } from "typeorm";
-import { AnswerRepository } from "../../repositories/AnswerRepository";
+import handleGetRepositories from "../../utils/handleGetRepositories";
 
 interface ListMyAnswersServiceProps {
   user: string;
@@ -7,10 +6,10 @@ interface ListMyAnswersServiceProps {
 
 class ListMyAnswersService {
   async execute({ user }: ListMyAnswersServiceProps){
-    const repository = getCustomRepository(AnswerRepository)
+    const { answerRepository } = handleGetRepositories()
 
     console.log(user)
-    const myAnswers = await repository
+    const myAnswers = await answerRepository
     .createQueryBuilder("answer")
     .where("answer.user = :user", { user })
     .getMany()
