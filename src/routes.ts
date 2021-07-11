@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { upload } from "./config/multer";
-import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
 
 import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
+import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
+import DeleteMyActivityController from "./controllers/ActivitiesOfTheDay/DeleteMyActivityController";
 
 import CreateActivityController from "./controllers/Activity/CreateActivityController";
 import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
@@ -36,7 +37,8 @@ routes.get('/activity/list', ListAllActivitiesController.handle)
 
 routes.get('/activity/my-list', CheckAuth, ListMyActivitiesController.handle)
 routes.get('/activity/get-activities', CheckAuth, ListActivitiesForMeController.handle)
-routes.delete('/activity/finish/:id', CheckAuth, FinishAnActivityController)
+routes.delete('/activity/finish/:id', CheckAuth, FinishAnActivityController.handle)
+routes.delete('/activity/delete/:id', CheckAuth, DeleteMyActivityController.handle)
 
 routes.post('/category/new', CreateCategoryController.handle)
 routes.get('/category/list', ListAllCategoriesController.handle)

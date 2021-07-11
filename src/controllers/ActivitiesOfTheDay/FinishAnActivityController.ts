@@ -11,4 +11,4 @@ class FinishAnActivityController {
     return response.sendStatus(200)
   }
 }
-export default new FinishAnActivityController().handle
+export default new FinishAnActivityController()
