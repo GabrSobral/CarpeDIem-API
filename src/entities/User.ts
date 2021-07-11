@@ -21,6 +21,9 @@ export class User {
   @Column({ select: false })
   password: string;
 
+  @Column()
+  quantity_of_activities: number;
+
   @CreateDateColumn()
   created_at: string;
 
