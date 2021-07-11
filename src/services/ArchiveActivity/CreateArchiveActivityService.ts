@@ -1,6 +1,4 @@
-import { getCustomRepository } from "typeorm";
-import { ActivityRepository } from "../../repositories/ActivityRepository.";
-import { ArchiveActivityRepository } from "../../repositories/ArchiveActivityRepository";
+import handleGetRepositories from "../../utils/handleGetRepositories";
 
 interface CreateArchiveActiviryService {
   activity_id: string;
@@ -12,25 +10,22 @@ class CreateArchiveActivityService {
     if(!activity_id) { throw new Error("No activity provided status:400") }
     if(!archive_id) { throw new Error("No archive provided status:400") }
     
-    const repository = getCustomRepository(ArchiveActivityRepository)
-    const activityRepository = getCustomRepository(ActivityRepository)
+    const { activitiesRepository, archiveActivityRepository } = handleGetRepositories()
 
-    const activity = await activityRepository
+    const activity = await activitiesRepository
     .createQueryBuilder('activity')
     .where("activity.id = :id", { id: activity_id })
     .getOne()
 
     const category = activity.category
 
-    const archiveActivity = repository.create({
+    const archiveActivity = archiveActivityRepository.create({
       archive: archive_id,
       activity: activity_id,
       category
     })
 
-    console.log(archiveActivity)
-
-    await repository.save(archiveActivity)
+    await archiveActivityRepository.save(archiveActivity)
 
     return archiveActivity
   }

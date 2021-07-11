@@ -1,11 +1,10 @@
-import { getCustomRepository } from "typeorm";
-import { QuestionRepository } from "../../repositories/QuestionRepository";
+import handleGetRepositories from "../../utils/handleGetRepositories";
 
 class ListAllQiestionsService {
   async execute(){
-    const repository = getCustomRepository(QuestionRepository)
+    const { questionRepository } = handleGetRepositories()
     
-    const AllQuestions = await repository.find()
+    const AllQuestions = await questionRepository.find()
 
     return AllQuestions
   }

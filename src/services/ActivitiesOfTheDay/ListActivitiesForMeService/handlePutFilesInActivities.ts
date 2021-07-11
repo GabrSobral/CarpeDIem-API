@@ -1,5 +1,5 @@
 import { Activity } from "../../../entities/Activity"
-import handleGetRepositories from "./handleGetRepositories"
+import handleGetRepositories from "../../../utils/handleGetRepositories"
 
 class handlePutFilesInActivities {
   async execute(activities: Activity[]){

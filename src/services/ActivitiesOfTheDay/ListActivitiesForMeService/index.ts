@@ -1,12 +1,13 @@
 import { Activity } from "../../../entities/Activity"
-import handleGetRepositories from "./handleGetRepositories"
+
+import handleGetRepositories from "../../../utils/handleGetRepositories"
 import handlePutFilesInActivities from "./handlePutFilesInActivities"
 import handleRandomCategory from "./handleRandomCategory"
-import handleSaveActivitiesInDB from "./handleSaveActivitiesInDB"
+import handleSaveInDB from "./handleSaveInDB"
+import handleVerifyActivityValidity from "./handleVerifyActivityValidity"
 
 class ListActivitiesForMeService{
   async execute(user: string){
-    const quantityOfActivitiesInList = 2
     const filteredActivities = [] as Activity[]
     const orderedActivities = [] as Activity[]
     const includedActivityIndex = [] as number[]
@@ -17,12 +18,15 @@ class ListActivitiesForMeService{
     const { 
       userRepository, 
       answerRepository, 
-      activitiesRepository,  
+      activitiesRepository,
     } = handleGetRepositories()
+
+    await handleVerifyActivityValidity(user)
 
     const userData = await userRepository.findOne(user)
 
     if(!userData){ throw new Error("User not found status:400") }
+    const quantityOfActivitiesInList = userData.quantity_of_activities
     
     const userAnswers = await answerRepository
     .createQueryBuilder("answer")
@@ -71,7 +75,8 @@ class ListActivitiesForMeService{
     
     const orderedActivitiesWithFiles = await handlePutFilesInActivities(orderedActivities)
 
-    await handleSaveActivitiesInDB(orderedActivities, user)
+    await handleSaveInDB.activities(orderedActivities, user)
+    await handleSaveInDB.users(userData)
     
     return orderedActivitiesWithFiles
   }

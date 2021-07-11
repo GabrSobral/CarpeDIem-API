@@ -1,7 +1,5 @@
 import { compare } from "bcryptjs"
-import { sign } from "jsonwebtoken"
-import { getCustomRepository } from "typeorm"
-import { UserRepository } from "../../repositories/UserRepository"
+import handleGetRepositories from "../../utils/handleGetRepositories"
 import handleGenerateToken from "./handleGenerateToken"
 
 interface IAuthenticateUser {
@@ -11,11 +9,11 @@ interface IAuthenticateUser {
 
 class AuthenticateUser {
   async execute({ email, password }: IAuthenticateUser){
-    const repository = getCustomRepository(UserRepository)
+    const { userRepository } = handleGetRepositories()
 
     email = email.toLowerCase()
 
-    const user = await repository.findOne(
+    const user = await userRepository.findOne(
       { email }, 
       { select: ["id", "password", 'email', 'name', 'created_at', 'updated_at'] })
 
