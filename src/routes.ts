@@ -6,11 +6,13 @@ import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyA
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
 import DeleteMyActivityController from "./controllers/ActivitiesOfTheDay/DeleteMyActivityController";
 
+import ChangeActivityController from "./controllers/Activity/ChangeActivityController";
 import CreateActivityController from "./controllers/Activity/CreateActivityController";
 import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
 
 import CreateAnswerController from "./controllers/Answer/CreateAnswerController";
 import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
+
 import CreateArchiveController from "./controllers/Archive/CreateArchiveController";
 import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 
@@ -32,6 +34,7 @@ routes.post('/users', CreateUserController.handle)
 routes.get('/users', CheckAuth, ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 
+routes.patch('/activity/update/:id', CheckAuth, ChangeActivityController.handle)
 routes.post('/activity/new', CreateActivityController.handle)
 routes.get('/activity/list', ListAllActivitiesController.handle)
 
