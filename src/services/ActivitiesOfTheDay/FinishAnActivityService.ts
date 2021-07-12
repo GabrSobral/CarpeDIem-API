@@ -10,6 +10,16 @@ class FinishAnActivityService{
   async execute({ user, activity }: FinishAnActivityProps){
     const { activitiesOfTheDayRepository, userRepository } = handleGetRepositories()
 
+    const activityExists = await activitiesOfTheDayRepository
+    .createQueryBuilder()
+    .where("activity = :activity", { activity })
+    .andWhere("destined_to = :user", { user })
+    .getOne()
+
+    if(!activityExists){
+      throw new Error("Activity not found status:400")
+    }
+
     await activitiesOfTheDayRepository
     .createQueryBuilder()
     .delete()
