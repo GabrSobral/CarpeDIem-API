@@ -18,4 +18,4 @@ app.use(ErrorCatcher)
 app.use(helmet())
 app.use(cors())
 
-app.listen(PORT, () => console.log(`Server Started at port ${PORT}`));
+app.listen(PORT, () => console.log(`🔥 Server Started at port ${PORT}`));
