@@ -27,6 +27,7 @@ import CreateUserController from "./controllers/User/CreateUserController";
 import ListUsersController from "./controllers/User/ListUsersController";
 
 import { CheckAuth } from './middlewares/CheckAuth'
+import DeleteActivityController from "./controllers/Activity/DeleteActivityController";
 
 const routes = Router()
 
@@ -35,13 +36,14 @@ routes.get('/users', CheckAuth, ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 
 routes.patch('/activity/update/:id', CheckAuth, ChangeActivityController.handle)
-routes.post('/activity/new', CreateActivityController.handle)
-routes.get('/activity/list', ListAllActivitiesController.handle)
+routes.post('/activity/new', CheckAuth, CreateActivityController.handle)
+routes.get('/activity/list', CheckAuth, ListAllActivitiesController.handle)
+routes.delete('/activity/delete/:id', CheckAuth, DeleteActivityController.handle)
 
 routes.get('/activity/my-list', CheckAuth, ListMyActivitiesController.handle)
 routes.get('/activity/get-activities', CheckAuth, ListActivitiesForMeController.handle)
 routes.delete('/activity/finish/:id', CheckAuth, FinishAnActivityController.handle)
-routes.delete('/activity/delete/:id', CheckAuth, DeleteMyActivityController.handle)
+routes.delete('/activity/my-delete/:id', CheckAuth, DeleteMyActivityController.handle)
 
 routes.post('/category/new', CreateCategoryController.handle)
 routes.get('/category/list', ListAllCategoriesController.handle)
