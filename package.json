@@ -6,6 +6,8 @@
   "author": "Sobraloser <Asgoth55@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node dist/server.js",
+    "build": "tsc",
     "dev": "tsnd --inspect --respawn --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "tsnd ./node_modules/typeorm/cli.js"
   },
