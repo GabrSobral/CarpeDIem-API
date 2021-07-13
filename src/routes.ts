@@ -28,6 +28,7 @@ import ListUsersController from "./controllers/User/ListUsersController";
 
 import { CheckAuth } from './middlewares/CheckAuth'
 import DeleteActivityController from "./controllers/Activity/DeleteActivityController";
+import ListAllArchivesController from "./controllers/Archive/ListAllArchivesController";
 
 const routes = Router()
 
@@ -54,6 +55,7 @@ routes.get('/question/list', CheckAuth,ListAllQuestionsController.handle)
 routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
+routes.get('/archive/list', CheckAuth, upload, ListAllArchivesController.handle)
 routes.post('/archive/new', CheckAuth, upload, CreateArchiveController.handle)
 routes.post('/archive-activity/new', CheckAuth, CreateArchiveActivityController.handle)
 
