@@ -8,6 +8,11 @@ module.exports = {
   database: process.env.DATABASE_NAME,
   logging: false,
   synchronize: false,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
   entities: [
     process.env.DATABASE_ENTITIES_DIR
   ],
