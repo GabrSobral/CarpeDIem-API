@@ -2,14 +2,14 @@
   "name": "TCC_API_Typescript",
   "version": "1.0.0",
   "main": "server.ts",
-  "repository": "https://github.com/Sobraloser/TCC_API_Typescript.git",
+  "repository": "https://github.com/GabrSobral/TCC_API_Typescript.git",
   "author": "Sobraloser <Asgoth55@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
     "dev": "tsnd --inspect --respawn --transpile-only --ignore-watch node_modules src/server.ts",
-    "typeorm": "tsnd ./node_modules/typeorm/cli.js"
+    "typeorm": "tsnd ./node_modules/typeorm/cli.js -f ./ormconfig"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

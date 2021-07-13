@@ -6,6 +6,7 @@ class handleUploadFile {
       file.path,
       { resource_type: "auto", overwrite: true },
       (error, result) => {
+        console.log(result)
         if(error) {throw new Error(`Error: ${error.message} status:500`)}
     });
   }
