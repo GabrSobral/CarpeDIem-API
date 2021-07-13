@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { Category } from "./Category";
 
@@ -22,6 +22,12 @@ export class Activity {
   @JoinColumn({ name: 'category' })
   @ManyToOne(() => Category, { cascade: true })
   JoinCategory: Category;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   constructor(){
     if(!this.id){
