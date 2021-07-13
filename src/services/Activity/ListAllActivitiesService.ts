@@ -15,7 +15,7 @@ class ListAllActivitiesService {
         name: file.JoinArchive.name,
         url: file.JoinArchive.url,
         category: file.JoinCategory.name,
-        duration: file.JoinArchive.duration,
+        duration: Math.round(Number(file.JoinArchive.duration)),
         format: file.JoinArchive.format
       }))
 
