@@ -45,16 +45,16 @@ routes.get('/activity/get-activities', CheckAuth, ListActivitiesForMeController.
 routes.delete('/activity/finish/:id', CheckAuth, FinishAnActivityController.handle)
 routes.delete('/activity/my-delete/:id', CheckAuth, DeleteMyActivityController.handle)
 
-routes.post('/category/new', CreateCategoryController.handle)
-routes.get('/category/list', ListAllCategoriesController.handle)
+routes.post('/category/new', CheckAuth, CreateCategoryController.handle)
+routes.get('/category/list', CheckAuth,ListAllCategoriesController.handle)
 
-routes.post('/question/new', CreateQuestionController.handle)
-routes.get('/question/list', ListAllQuestionsController.handle)
+routes.post('/question/new', CheckAuth,CreateQuestionController.handle)
+routes.get('/question/list', CheckAuth,ListAllQuestionsController.handle)
 
 routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
-routes.post('/archive/new', upload, CreateArchiveController.handle)
-routes.post('/archive-activity/new', CreateArchiveActivityController.handle)
+routes.post('/archive/new', CheckAuth, upload, CreateArchiveController.handle)
+routes.post('/archive-activity/new', CheckAuth, CreateArchiveActivityController.handle)
 
 export { routes }
