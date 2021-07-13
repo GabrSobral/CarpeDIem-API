@@ -14,7 +14,9 @@ class ListAllActivitiesService {
         id: file.JoinArchive.id,
         name: file.JoinArchive.name,
         url: file.JoinArchive.url,
-        category: file.JoinCategory.name
+        category: file.JoinCategory.name,
+        duration: file.JoinArchive.duration,
+        format: file.JoinArchive.format
       }))
 
       return {
