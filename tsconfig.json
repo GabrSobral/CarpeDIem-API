@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-
     // "incremental": true,                      
     "target": "es2017",                             
     "module": "commonjs",                        
@@ -10,7 +9,7 @@
     // "jsx": "preserve",                        
     // "declaration": true,                      
     // "declarationMap": true,                   
-    // "sourceMap": true,                        
+    "sourceMap": true,                        
     // "outFile": "./",                          
     "outDir": "./dist",                           
     "rootDir": "./src",                          
@@ -39,7 +38,7 @@
     // "noImplicitOverride": true,               
     // "noPropertyAccessFromIndexSignature": true
 
-    // "moduleResolution": "node",               
+    "moduleResolution": "node",               
     // "baseUrl": "./",                          
     // "paths": {},                              
     // "rootDirs": [],                           
@@ -64,5 +63,5 @@
     "skipLibCheck": true,                        
     "forceConsistentCasingInFileNames": true     
   },
-  "include": ["./src"]
+  "include": ["./src", "ormconfig.js", "ormconfig.js"]
 }

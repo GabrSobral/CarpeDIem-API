@@ -22,7 +22,9 @@ class handlePutFilesInActivities {
         id: file.JoinArchive.id,
         name: file.JoinArchive.name,
         url: file.JoinArchive.url,
-        category: file.JoinCategory.name
+        format: file.JoinArchive.format,
+        category: file.JoinCategory.name,
+        duration: Math.round(Number(file.JoinArchive.duration)),
       }))
   
       return {

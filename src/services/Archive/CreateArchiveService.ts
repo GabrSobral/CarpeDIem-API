@@ -18,10 +18,15 @@ class CreateArchiveService {
     
     const { archiveRepository } = handleGetRepositories()
 
-    await handleUploadFile(files)
+    const file_data = await handleUploadFile(files)
 
     const archive = archiveRepository.create({
-      name, author, description, url: files.path
+      name, 
+      author, 
+      description, 
+      url: files.path, 
+      format: file_data.format,
+      duration: String(file_data.duration)
     })
     await archiveRepository.save(archive)
 
