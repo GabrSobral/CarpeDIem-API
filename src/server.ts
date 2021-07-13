@@ -12,10 +12,10 @@ import { ErrorCatcher } from './middlewares/ErrorCatcher';
 const PORT = process.env.PORT || 3333;
 const app = express();
 
+app.use(cors())
+app.use(helmet())
 app.use(express.json())
 app.use(routes)
 app.use(ErrorCatcher)
-app.use(helmet())
-app.use(cors())
 
 app.listen(PORT, () => console.log(`🔥 Server Started at port ${PORT}`));
