@@ -1,32 +1,32 @@
 # Carpe Diem API Typescript
- (`This project is in development yet`).
+ (`This project is in development yet 🔧`).
 
 I'm building this API to my course, because I have one last work to present, and show the skills that I learned in the course.
 
-## Technologies
+## Technologies 🛠
 
-  - NodeJS
-  - PostgreSQL
-  - Typescript
-  - Express
+  - NodeJS <img alt="Nodejs" src="https://img.shields.io/badge/-Nodejs-43853d?style=for-the-badge&logo=node.js&logoColor=white" />
+  - PostgreSQL <img alt="Postgres" src ="https://img.shields.io/badge/Postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
+  - Typescript <img alt="TypeScript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white"/>
+  - Express <img alt="Express.js" src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB"/>
   - JsonWebToken
   - TypeORM
   - Bcrypt
   - Multer
   - Cloudinary
 
-## Patterns
+## Patterns 📃 
   - Singleton pattern
   - Service pattern
   - Repository pattern
   - Some SOLID concepts
 
-## Prerequisites
+## Prerequisites ⚙️
  - Node v14.17.1 (version used to build the API)
  - Package Manager (npm or yarn)
  - PostgreSQL
 
-## Installation
+## Installation 💻 
 
 ### Step 1
 Clone this repository with this command:
