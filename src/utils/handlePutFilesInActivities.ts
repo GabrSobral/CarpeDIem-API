@@ -26,7 +26,10 @@ class handlePutFilesInActivities {
         title: item.title,
         description: item.description,
         body: item.body,
-        category: item.category,
+        category: {
+          id: item.JoinCategory.id,
+          name: item.JoinCategory.name
+        },
         created_at: item.created_at,
         updated_at: item.updated_at,
         files

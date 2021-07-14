@@ -36,7 +36,7 @@ class ListActivitiesForMeService{
     if(userAnswers.length === 0){ 
       throw new Error("User dont have answers yet status:400") }
 
-    const allActivities = await activitiesRepository.find()
+    const allActivities = await activitiesRepository.find({ relations: ["JoinCategory"] })
 
     userAnswers.forEach(( item ) => {
       currentAnswerSum = Number(item.answer)
