@@ -1,33 +1,13 @@
 import handleGetRepositories from "../../utils/handleGetRepositories";
+import handlePutFilesInActivities from "../../utils/handlePutFilesInActivities";
 
 class ListAllActivitiesService {
   async execute(){
-    const { activitiesRepository, archiveActivityRepository } = handleGetRepositories()
+    const { activitiesRepository } = handleGetRepositories()
 
-    const allArchivesActivities = await archiveActivityRepository.find({ relations: ['JoinArchive', 'JoinActivity', 'JoinCategory'] })
-    const allArchives = await activitiesRepository.find()
+    const allActivities = await activitiesRepository.find()
 
-    const allFormattedActivities = allArchives.map(item => {
-      const allFiles = allArchivesActivities.filter(element => element.JoinActivity.id === item.id)
-
-      const files = allFiles.map(file => ({
-        id: file.JoinArchive.id,
-        name: file.JoinArchive.name,
-        url: file.JoinArchive.url,
-        category: file.JoinCategory.name,
-        duration: Math.round(Number(file.JoinArchive.duration)),
-        format: file.JoinArchive.format
-      }))
-
-      return {
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        body: item.body,
-        category: item.category,
-        files
-      }
-    })
+    const allFormattedActivities = await handlePutFilesInActivities(allActivities)
 
     return allFormattedActivities
   }
