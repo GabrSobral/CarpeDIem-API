@@ -1,4 +1,5 @@
 import { ArchiveActivity } from "../../entities/ArchiveActivity"
+import { Activity } from "../../entities/Activity"
 import handleGetRepositories from "../../utils/handleGetRepositories"
 
 class DeleteActivityService{
@@ -13,7 +14,12 @@ class DeleteActivityService{
     if(!activityExists){
       throw new Error("No activity found status:400")}
 
-    await activitiesRepository.delete(activityExists)
+    await activitiesRepository
+    .createQueryBuilder()
+    .delete()
+    .from(Activity)
+    .where('id = :activity', { activity:  activityExists.id})
+    .execute()
 
     const ActivityFiles = await archiveActivityRepository.find({ where: { activity: id }})
 
