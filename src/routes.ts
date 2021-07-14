@@ -30,6 +30,8 @@ import AuthenticateUserController from "./controllers/User/AuthenticateUserContr
 import CreateUserController from "./controllers/User/CreateUserController";
 import ListUsersController from "./controllers/User/ListUsersController";
 import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
+import DeleteArchiveActivityController from "./controllers/ArchiveActivity/DeleteArchiveActivityController";
+import DeleteArchiveController from "./controllers/Archive/DeleteArchiveController";
 
 
 const routes = Router()
@@ -60,7 +62,10 @@ routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
 routes.get('/archive/list', CheckAuth, upload, ListAllArchivesController.handle)
 routes.post('/archive/new', CheckAuth, upload, CreateArchiveController.handle)
+routes.delete('/archive/delete/:id', CheckAuth, DeleteArchiveController.handle)
+
 routes.post('/archive-activity/new', CheckAuth, CreateArchiveActivityController.handle)
 routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController.handle)
+routes.delete('/archive-activity/delete/:id', CheckAuth, DeleteArchiveActivityController.handle)
 
 export { routes }
