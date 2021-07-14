@@ -1,7 +1,7 @@
 import { Activity } from "../../../entities/Activity"
 
 import handleGetRepositories from "../../../utils/handleGetRepositories"
-import handlePutFilesInActivities from "./handlePutFilesInActivities"
+import handlePutFilesInActivities from "../../../utils/handlePutFilesInActivities"
 import handleRandomCategory from "./handleRandomCategory"
 import handleSaveInDB from "./handleSaveInDB"
 import handleVerifyActivityValidity from "./handleVerifyActivityValidity"

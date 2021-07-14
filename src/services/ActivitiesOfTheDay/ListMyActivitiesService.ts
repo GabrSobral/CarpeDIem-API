@@ -1,6 +1,6 @@
 import { getCustomRepository } from "typeorm";
 import { ActivitiesOfTheDayRepository } from "../../repositories/ActivitiesOfTheDayRepository";
-import handlePutFilesInActivities from "./ListActivitiesForMeService/handlePutFilesInActivities";
+import handlePutFilesInActivities from "../../utils/handlePutFilesInActivities";
 
 class ListMyActivitiesService {
   async execute(user: String){
