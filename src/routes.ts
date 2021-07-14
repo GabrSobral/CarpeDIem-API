@@ -29,6 +29,7 @@ import ListAllQuestionsController from "./controllers/Question/ListAllQuestionsC
 import AuthenticateUserController from "./controllers/User/AuthenticateUserController";
 import CreateUserController from "./controllers/User/CreateUserController";
 import ListUsersController from "./controllers/User/ListUsersController";
+import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
 
 
 const routes = Router()
@@ -60,5 +61,6 @@ routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 routes.get('/archive/list', CheckAuth, upload, ListAllArchivesController.handle)
 routes.post('/archive/new', CheckAuth, upload, CreateArchiveController.handle)
 routes.post('/archive-activity/new', CheckAuth, CreateArchiveActivityController.handle)
+routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController.handle)
 
 export { routes }
