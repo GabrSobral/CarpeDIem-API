@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { upload } from "./config/multer";
+import { CheckAuth } from './middlewares/CheckAuth'
 
 import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
@@ -9,11 +10,14 @@ import DeleteMyActivityController from "./controllers/ActivitiesOfTheDay/DeleteM
 import ChangeActivityController from "./controllers/Activity/ChangeActivityController";
 import CreateActivityController from "./controllers/Activity/CreateActivityController";
 import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
+import ShowOneActivityController from "./controllers/Activity/ShowOneActivityController";
+import DeleteActivityController from "./controllers/Activity/DeleteActivityController";
 
 import CreateAnswerController from "./controllers/Answer/CreateAnswerController";
 import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
 
 import CreateArchiveController from "./controllers/Archive/CreateArchiveController";
+import ListAllArchivesController from "./controllers/Archive/ListAllArchivesController";
 import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 
 import CreateCategoryController from "./controllers/Category/CreateCategoryController";
@@ -26,9 +30,6 @@ import AuthenticateUserController from "./controllers/User/AuthenticateUserContr
 import CreateUserController from "./controllers/User/CreateUserController";
 import ListUsersController from "./controllers/User/ListUsersController";
 
-import { CheckAuth } from './middlewares/CheckAuth'
-import DeleteActivityController from "./controllers/Activity/DeleteActivityController";
-import ListAllArchivesController from "./controllers/Archive/ListAllArchivesController";
 
 const routes = Router()
 
@@ -40,6 +41,7 @@ routes.patch('/activity/update/:id', CheckAuth, ChangeActivityController.handle)
 routes.post('/activity/new', CheckAuth, CreateActivityController.handle)
 routes.get('/activity/list', CheckAuth, ListAllActivitiesController.handle)
 routes.delete('/activity/delete/:id', CheckAuth, DeleteActivityController.handle)
+routes.get('/activity/show/:id', CheckAuth, ShowOneActivityController.handle)
 
 routes.get('/activity/my-list', CheckAuth, ListMyActivitiesController.handle)
 routes.get('/activity/get-activities', CheckAuth, ListActivitiesForMeController.handle)
