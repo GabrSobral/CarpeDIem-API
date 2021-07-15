@@ -13,10 +13,10 @@ export class Archive {
   name: string;
 
   @Column()
-  description: string;
+  size: number;
 
   @Column()
-  author: string;
+  created_at: Date;
 
   @Column()
   format: string;

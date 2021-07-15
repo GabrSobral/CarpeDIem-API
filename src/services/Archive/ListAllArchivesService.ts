@@ -10,11 +10,11 @@ class ListAllArchivesService {
       {
         id: file.id,
         name: file.name,
-        description: file.description,
+        size: file.size,
         url: file.url,
-        author: file.author,
         duration: Math.round(Number(file.duration)),
-        format: file.format
+        format: file.format,
+        created_at: file.created_at,
       }
     ))
 
