@@ -18,7 +18,8 @@ class CreateArchiveService {
       size: files.size, 
       url: files.path, 
       format: file_data.format,
-      duration: String(file_data.duration)
+      duration: String(file_data.duration),
+      public_id: file_data.public_id
     })
     await archiveRepository.save(archive)
 

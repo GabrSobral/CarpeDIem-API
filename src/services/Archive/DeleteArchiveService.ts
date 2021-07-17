@@ -1,14 +1,14 @@
 import { Archive } from "../../entities/Archive"
 import { ArchiveActivity } from "../../entities/ArchiveActivity"
 import handleGetRepositories from "../../utils/handleGetRepositories"
+import handleDeleteFromCloud from "./handleDeleteFromCloud"
 
 class DeleteArchiveService{
   async execute(archive_id: string){
     const { archiveRepository, archiveActivityRepository } = handleGetRepositories()
 
     const archivesActivities = await archiveActivityRepository.find({ where: {archive: archive_id} })
-
-    console.log(archivesActivities)
+    const archive = await archiveRepository.findOne({ where: { id: archive_id} })
 
     archivesActivities.forEach(async (item) => {
       await archiveActivityRepository
@@ -26,6 +26,8 @@ class DeleteArchiveService{
       .from(Archive)
       .where('id = :archive', { archive: archive_id })
       .execute()
+
+    await handleDeleteFromCloud.execute(archive.public_id)
 
     return
   }
