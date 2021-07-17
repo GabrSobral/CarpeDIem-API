@@ -5,7 +5,7 @@ class ListAllActivitiesService {
   async execute(){
     const { activitiesRepository } = handleGetRepositories()
 
-    const allActivities = await activitiesRepository.find()
+    const allActivities = await activitiesRepository.find({ relations: ["JoinCategory"] })
 
     const allFormattedActivities = await handlePutFilesInActivities(allActivities)
 

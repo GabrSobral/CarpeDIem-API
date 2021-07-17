@@ -5,7 +5,8 @@ class ShowOneActivityService {
   async execute(id: string){
     const { activitiesRepository } = handleGetRepositories()
 
-    const activity = await activitiesRepository.findOne(id)
+    const activity = await activitiesRepository
+    .findOne(id, { relations: ["JoinCategory"] })
 
     const [ formattedActivity ] = await handlePutFilesInActivities([activity])
 

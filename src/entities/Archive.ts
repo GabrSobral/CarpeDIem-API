@@ -13,16 +13,19 @@ export class Archive {
   name: string;
 
   @Column()
-  description: string;
+  size: number;
 
   @Column()
-  author: string;
+  created_at: Date;
 
   @Column()
   format: string;
 
   @Column()
   duration: string;
+
+  @Column()
+  public_id: string;
 
   constructor(){
     if(!this.id){

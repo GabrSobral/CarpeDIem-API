@@ -11,15 +11,8 @@ class DeleteActivityService{
     .where("id = :activity", { activity: id })
     .getOne()
 
-    if(!activityExists){
+    if(!activityExists){  
       throw new Error("No activity found status:400")}
-
-    await activitiesRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Activity)
-    .where('id = :activity', { activity:  activityExists.id})
-    .execute()
 
     const ActivityFiles = await archiveActivityRepository.find({ where: { activity: id }})
 
@@ -34,6 +27,13 @@ class DeleteActivityService{
         .execute()
       })
     }  
+
+    await activitiesRepository
+    .createQueryBuilder()
+    .delete()
+    .from(Activity)
+    .where('id = :activity', { activity:  activityExists.id})
+    .execute()
 
     return
   }
