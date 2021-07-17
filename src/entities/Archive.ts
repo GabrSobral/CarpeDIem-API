@@ -24,6 +24,9 @@ export class Archive {
   @Column()
   duration: string;
 
+  @Column()
+  public_id: string;
+
   constructor(){
     if(!this.id){
       this.id = uuid()
