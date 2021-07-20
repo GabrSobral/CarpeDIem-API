@@ -32,6 +32,7 @@ import ListUsersController from "./controllers/User/ListUsersController";
 import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
 import DeleteArchiveActivityController from "./controllers/ArchiveActivity/DeleteArchiveActivityController";
 import DeleteArchiveController from "./controllers/Archive/DeleteArchiveController";
+import DeleteCategoryController from "./controllers/Category/DeleteCategoryController";
 
 
 const routes = Router()
@@ -53,6 +54,7 @@ routes.delete('/activity/my-delete/:id', CheckAuth, DeleteMyActivityController.h
 
 routes.post('/category/new', CheckAuth, CreateCategoryController.handle)
 routes.get('/category/list', CheckAuth,ListAllCategoriesController.handle)
+routes.delete('/category/delete/:id', CheckAuth, DeleteCategoryController.handle)
 
 routes.post('/question/new', CheckAuth,CreateQuestionController.handle)
 routes.get('/question/list', CheckAuth,ListAllQuestionsController.handle)
