@@ -2,6 +2,10 @@ import { Router } from "express";
 import { upload } from "./config/multer";
 import { CheckAuth } from './middlewares/CheckAuth'
 
+import ListUsersController from "./controllers/User/ListUsersController";
+import CreateUserController from "./controllers/User/CreateUserController";
+import AuthenticateUserController from "./controllers/User/AuthenticateUserController";
+
 import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
@@ -17,25 +21,24 @@ import CreateAnswerController from "./controllers/Answer/CreateAnswerController"
 import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
 
 import CreateArchiveController from "./controllers/Archive/CreateArchiveController";
+import DeleteArchiveController from "./controllers/Archive/DeleteArchiveController";
 import ListAllArchivesController from "./controllers/Archive/ListAllArchivesController";
-import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 
 import CreateCategoryController from "./controllers/Category/CreateCategoryController";
+import DeleteCategoryController from "./controllers/Category/DeleteCategoryController";
 import ListAllCategoriesController from "./controllers/Category/ListAllCategoriesController";
 
+import DeleteQuestionController from "./controllers/Question/DeleteQuestionController";
 import CreateQuestionController from "./controllers/Question/CreateQuestionController";
 import ListAllQuestionsController from "./controllers/Question/ListAllQuestionsController";
 
-import AuthenticateUserController from "./controllers/User/AuthenticateUserController";
-import CreateUserController from "./controllers/User/CreateUserController";
-import ListUsersController from "./controllers/User/ListUsersController";
-import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
 import DeleteArchiveActivityController from "./controllers/ArchiveActivity/DeleteArchiveActivityController";
-import DeleteArchiveController from "./controllers/Archive/DeleteArchiveController";
-import DeleteCategoryController from "./controllers/Category/DeleteCategoryController";
-import DeleteQuestionController from "./controllers/Question/DeleteQuestionController";
+import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
+import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
+
 import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackController";
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
+import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
 
 
 const routes = Router()
@@ -76,5 +79,6 @@ routes.delete('/archive-activity/delete/:id', CheckAuth, DeleteArchiveActivityCo
 
 routes.post('/feedback/new', CheckAuth, CreateFeedbackController.handle)
 routes.get('/feedback/my-list', CheckAuth, ListMyFeedbacksController.handle)
+routes.delete('/feedback/delete/:id', CheckAuth, DeleteFeedbackController.handle)
 
 export { routes }
