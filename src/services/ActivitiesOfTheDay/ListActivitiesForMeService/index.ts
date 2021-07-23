@@ -15,56 +15,14 @@ class ListActivitiesForMeService {
     let currentAnswerSum = 0;
     let previousAnswerSum = 0;
 
-    const feedBackUser = [
-      {
-        user,
-        feedback: true,
-        activity: {
-          id: 'fec802e5-7c7f-47da-ada3-16c4bad122c4',
-          title: 'O poder do som',
-          description: 'Músicoterapia na sua vida, desde a antiguidade.',
-          body: '<p>Desde a antiguidade, a música tem sido usada para melhorar nossa saúde mental e física. O filósofo e matemático grego, Pitágoras, acreditaca firmemente no poder curativo da música, enquanto o médico e enciclopedista romano, Celsius, afirmava que ela deveria ser usada para animar e acalmar pacientes. Ambos estavam certos e a ciência moderna nos comprova isso.</p><p>Escolha uma música relaxante para escutar, e aproveite seu momento de paz, lembre-se sempre de que a musicoterapia não é o suficiente para a cura em casos graves, e sempre deve vir com o acompanhamento de medicamentos especializados e apoio profissional.</p>',
-          category: '2d6b89c3-40d6-4992-99e7-e91ac3fc9783',
-          created_at: '2021-07-13T16:10:45.006Z',
-          updated_at: '2021-07-20T22:32:51.707Z'
-        }
-      },
-      {
-        user,
-        feedback: false,
-        activity: {
-          id: '04f5a9f9-2c8f-447f-a3d7-97ade3a60ed6',
-          title: 'Atividade de musica 1',
-          description: 'Teste',
-          body: 'Teste de categoria',
-          category: '2d6b89c3-40d6-4992-99e7-e91ac3fc9783',
-          created_at: '2021-07-22T00:52:38.656Z',
-          updated_at: '2021-07-22T00:52:38.656Z'
-        }
-      },
-      {
-        user,
-        feedback: false,
-        activity: {
-          id: 'aa0247a9-3884-4f6c-b7b3-fab26bcd5a2e',
-          title: 'Lorem Ipsum',
-          description:
-            'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
-          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nisi magna, auctor eu pellentesque vitae, malesuada suscipit libero. Sed tempus sodales felis, eget lacinia libero euismod in. Pellentesque a porta nunc, eget consectetur nisi. Vivamus convallis, tellus ut aliquam maximus, lacus mi condimentum ligula, vitae gravida arcu justo iaculis nisi. <hr>Ut eget imperdiet augue. Curabitur quis convallis quam. Donec efficitur augue iaculis magna egestas semper. Nunc purus lorem, ornare non luctus sed, suscipit eget felis. Vivamus iaculis nulla tortor, nec tempus nibh tempus eget. <hr>Nulla in ex ornare, viverra massa ut, convallis erat. Integer faucibus ante risus, non cursus ante tincidunt quis. In commodo ligula eget libero tincidunt, eu tincidunt tellus interdum. ',
-          category: '2d6b89c3-40d6-4992-99e7-e91ac3fc9783',
-          created_at: '2021-07-17T19:05:20.505Z',
-          updated_at: '2021-07-21T00:10:30.263Z'
-        }
-      }
-    ];
+    const {
+      userRepository,
+      answerRepository,
+      feedbackRepository,
+      activitiesRepository
+    } = handleGetRepositories();
 
-    let goodFeedback = feedBackUser.filter((item) => item.feedback);
-    let badFeedback = feedBackUser.filter((item) => !item.feedback);
-
-    const { userRepository, answerRepository, activitiesRepository } =
-      handleGetRepositories();
-
-    // await handleVerifyActivityValidity(user)
+    await handleVerifyActivityValidity(user);
 
     const userData = await userRepository.findOne(user);
 
@@ -92,6 +50,13 @@ class ListActivitiesForMeService {
       previousAnswerSum = currentAnswerSum;
     });
 
+    const feedBackUser = await feedbackRepository.find({
+      where: { user },
+      relations: ['JoinActivity']
+    });
+    let goodFeedback = feedBackUser.filter((item) => item.feedback);
+    let badFeedback = feedBackUser.filter((item) => !item.feedback);
+
     const average = answersSum[answersSum.length - 1] / userAnswers.length;
 
     if (goodFeedback.length !== 0) {
@@ -107,7 +72,7 @@ class ListActivitiesForMeService {
           Math.random() * (goodFeedback.length - 1 - 0 + 1) + 0
         );
         const activity = allActivities.filter(
-          (item) => item.id === goodFeedback[random].activity.id
+          (item) => item.id === goodFeedback[random].JoinActivity.id
         );
         if (orderedActivities.indexOf(activity[0]) !== -1) {
           index = index - 1;
@@ -124,7 +89,7 @@ class ListActivitiesForMeService {
 
         allActivities.forEach((activity) => {
           const alreadyExists = badFeedback.every(
-            (item) => item.activity.id !== activity.id
+            (item) => item.JoinActivity.id !== activity.id
           );
           if (alreadyExists) {
             Activities.push(activity);
