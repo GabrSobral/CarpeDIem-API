@@ -35,6 +35,7 @@ import DeleteArchiveController from "./controllers/Archive/DeleteArchiveControll
 import DeleteCategoryController from "./controllers/Category/DeleteCategoryController";
 import DeleteQuestionController from "./controllers/Question/DeleteQuestionController";
 import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackController";
+import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 
 
 const routes = Router()
@@ -74,5 +75,6 @@ routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController
 routes.delete('/archive-activity/delete/:id', CheckAuth, DeleteArchiveActivityController.handle)
 
 routes.post('/feedback/new', CheckAuth, CreateFeedbackController.handle)
+routes.get('/feedback/my-list', CheckAuth, ListMyFeedbacksController.handle)
 
 export { routes }
