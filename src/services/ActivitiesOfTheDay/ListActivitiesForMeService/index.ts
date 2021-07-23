@@ -95,8 +95,6 @@ class ListActivitiesForMeService {
             Activities.push(activity);
           }
         });
-        console.log('badFeedback feito');
-        console.log('-------------------------------------');
         allActivities = Activities;
       }
 
