@@ -6,10 +6,11 @@ interface User {
   name: string;
   email: string;
   password: string;
+  role?: string | undefined;
 };
 
 class CreateUserService{
-  async execute({name, email, password}: User){
+  async execute({name, email, password, role}: User){
     const { userRepository } = handleGetRepositories()
     const userAlreadyExists = await userRepository.findOne({email})
 
@@ -23,7 +24,8 @@ class CreateUserService{
     const user = userRepository.create({
       name,
       email: lowercaseEmail,
-      password: encryptedPassword
+      password: encryptedPassword,
+      role
     })
     await userRepository.save(user)
 
