@@ -3,6 +3,15 @@
 
 I'm building this API to my course, because I have one last work to present, and show the skills that I learned in the course.
 
+## Features
+
+<p>🔵 Login and register with JsonWebToken authentication;</p>
+<p>🔵 Questionnaire with questions to collect the user preferences about categories;</p>
+<p>🔵 The app will automatically list diary activities to user to improve his life style and prevent mental ilnesess;</p>
+<p>🔵 User can make feedback about activities, and it will change the algorithm about automatically listing;</p>
+<p>🔵 The ADMIN can make upload of files, like musics, videos and audios, to use in activities;</p>
+<p>🔵 Admin can make the basic CRUD, to activities, files, questions and categories;</p>
+
 ## Technologies 🛠
 
   - NodeJS <img alt="Nodejs" src="https://img.shields.io/badge/-Nodejs-43853d?style=for-the-badge&logo=node.js&logoColor=white" />
