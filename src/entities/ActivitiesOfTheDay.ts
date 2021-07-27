@@ -10,7 +10,7 @@ export class ActivitiesOfTheDay {
 
   @JoinColumn({ name: 'activity' })
   @ManyToOne( () => Activity, { cascade: true } )
-  JoinActivity: Activity
+  JoinActivity: Activity;
 
   @PrimaryColumn()
   destined_to: string;

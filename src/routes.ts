@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { upload } from "./config/multer";
 import { CheckAuth } from './middlewares/CheckAuth'
+import { CheckAdmin } from './middlewares/CheckAdmin'
 
 import ListUsersController from "./controllers/User/ListUsersController";
 import CreateUserController from "./controllers/User/CreateUserController";
@@ -44,13 +45,13 @@ import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackContr
 const routes = Router()
 
 routes.post('/users', CreateUserController.handle)
-routes.get('/users', CheckAuth, ListUsersController.handle)
+routes.get('/users', CheckAuth, CheckAdmin,ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 
-routes.patch('/activity/update/:id', CheckAuth, ChangeActivityController.handle)
-routes.post('/activity/new', CheckAuth, CreateActivityController.handle)
+routes.patch('/activity/update/:id', CheckAuth, CheckAdmin, ChangeActivityController.handle) //ADMIN
+routes.post('/activity/new', CheckAuth, CheckAdmin,CreateActivityController.handle) //ADMIN
 routes.get('/activity/list', CheckAuth, ListAllActivitiesController.handle)
-routes.delete('/activity/delete/:id', CheckAuth, DeleteActivityController.handle)
+routes.delete('/activity/delete/:id', CheckAuth, CheckAdmin, DeleteActivityController.handle) //ADMIN
 routes.get('/activity/show/:id', CheckAuth, ShowOneActivityController.handle)
 
 routes.get('/activity/my-list', CheckAuth, ListMyActivitiesController.handle)
@@ -58,24 +59,24 @@ routes.get('/activity/get-activities', CheckAuth, ListActivitiesForMeController.
 routes.delete('/activity/finish/:id', CheckAuth, FinishAnActivityController.handle)
 routes.delete('/activity/my-delete/:id', CheckAuth, DeleteMyActivityController.handle)
 
-routes.post('/category/new', CheckAuth, CreateCategoryController.handle)
+routes.post('/category/new', CheckAuth, CheckAdmin, CreateCategoryController.handle) //ADMIN
 routes.get('/category/list', CheckAuth,ListAllCategoriesController.handle)
-routes.delete('/category/delete/:id', CheckAuth, DeleteCategoryController.handle)
+routes.delete('/category/delete/:id', CheckAuth, CheckAdmin, DeleteCategoryController.handle) //ADMIN
 
-routes.post('/question/new', CheckAuth,CreateQuestionController.handle)
+routes.post('/question/new', CheckAuth, CheckAdmin, CreateQuestionController.handle) //ADMIN
 routes.get('/question/list', CheckAuth,ListAllQuestionsController.handle)
-routes.delete('/question/delete/:id', CheckAuth, DeleteQuestionController.handle)
+routes.delete('/question/delete/:id', CheckAuth, CheckAdmin, DeleteQuestionController.handle) //ADMIN
 
 routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
 routes.get('/archive/list', CheckAuth, upload, ListAllArchivesController.handle)
-routes.post('/archive/new', CheckAuth, upload, CreateArchiveController.handle)
-routes.delete('/archive/delete/:id', CheckAuth, DeleteArchiveController.handle)
+routes.post('/archive/new', CheckAuth, CheckAdmin, upload, CreateArchiveController.handle) //ADMIN
+routes.delete('/archive/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveController.handle) //ADMIN
 
-routes.post('/archive-activity/new', CheckAuth, CreateArchiveActivityController.handle)
+routes.post('/archive-activity/new', CheckAuth, CheckAdmin, CreateArchiveActivityController.handle) //ADMIN
 routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController.handle)
-routes.delete('/archive-activity/delete/:id', CheckAuth, DeleteArchiveActivityController.handle)
+routes.delete('/archive-activity/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveActivityController.handle) //ADMIN
 
 routes.post('/feedback/new', CheckAuth, CreateFeedbackController.handle)
 routes.get('/feedback/my-list', CheckAuth, ListMyFeedbacksController.handle)
