@@ -76,7 +76,7 @@ Create an account in Cloudinary, take your API secrets and put in `.env` file.
 (dont forget to put some `secret` in `TOKEN_SECRET` field, he's responsible to turn your `JsonWebToken` unique)
 
 ```
-TOKEN_SECRET= Yout token secret here
+TOKEN_SECRET= JsonWebToken secret here
 CLOUDINARY_CLOUD_NAME= 
 CLOUDINARY_API_KEY= 
 CLOUDINARY_API_SECRET= 
