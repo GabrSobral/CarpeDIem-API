@@ -7,16 +7,16 @@ import ListUsersController from "./controllers/User/ListUsersController";
 import CreateUserController from "./controllers/User/CreateUserController";
 import AuthenticateUserController from "./controllers/User/AuthenticateUserController";
 
-import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
 import DeleteMyActivityController from "./controllers/ActivitiesOfTheDay/DeleteMyActivityController";
+import ListActivitiesForMeController from "./controllers/ActivitiesOfTheDay/ListActivitiesForMeController";
 
 import ChangeActivityController from "./controllers/Activity/ChangeActivityController";
 import CreateActivityController from "./controllers/Activity/CreateActivityController";
-import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
-import ShowOneActivityController from "./controllers/Activity/ShowOneActivityController";
 import DeleteActivityController from "./controllers/Activity/DeleteActivityController";
+import ShowOneActivityController from "./controllers/Activity/ShowOneActivityController";
+import ListAllActivitiesController from "./controllers/Activity/ListAllActivitiesController";
 
 import CreateAnswerController from "./controllers/Answer/CreateAnswerController";
 import ListMyAnswersController from "./controllers/Answer/ListMyAnswersController";
@@ -38,8 +38,8 @@ import CreateArchiveActivityController from "./controllers/ArchiveActivity/Creat
 import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
 
 import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackController";
-import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
+import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 
 
 const routes = Router()
