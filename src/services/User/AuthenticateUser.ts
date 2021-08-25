@@ -26,6 +26,7 @@ class AuthenticateUser {
     
     const token = handleGenerateToken(user)
     delete user.password
+    console.log(user)
 
     return { user, token }
   }
