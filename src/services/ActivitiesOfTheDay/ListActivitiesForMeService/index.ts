@@ -56,23 +56,26 @@ class ListActivitiesForMeService {
     });
     let goodFeedback = feedBackUser.filter((item) => item.feedback);
     let badFeedback = feedBackUser.filter((item) => !item.feedback);
+    const hasFeedback = goodFeedback.length !== 0 ? true : false
 
-    const average = answersSum[answersSum.length - 1] / userAnswers.length;
+    console.log('good:', goodFeedback)
+    console.log('bad:', badFeedback)
 
-    if (goodFeedback.length !== 0) {
+    if (hasFeedback) {
+      const average = answersSum[answersSum.length - 1] / userAnswers.length;
       answersSum.push(answersSum[answersSum.length - 1] + average); // user feedback chance
     }
 
     for (let index = 0; index < quantityOfActivitiesInList; index++) {
       filteredActivities = [];
-      const currentCategory = handleRandomCategory(answersSum, userAnswers);
+      const currentCategory = handleRandomCategory(answersSum, userAnswers, hasFeedback);
 
       if (currentCategory === 'feedback') {
         let random = Math.floor(
           Math.random() * (goodFeedback.length - 1 - 0 + 1) + 0
         );
         const activity = allActivities.filter(
-          (item) => item.id === goodFeedback[random].JoinActivity.id
+          (item) => item.id === goodFeedback[random]?.JoinActivity.id
         );
         if (orderedActivities.indexOf(activity[0]) !== -1) {
           index = index - 1;
@@ -89,8 +92,9 @@ class ListActivitiesForMeService {
 
         allActivities.forEach((activity) => {
           const alreadyExists = badFeedback.every(
-            (item) => item.JoinActivity.id !== activity.id
+            (item) => item?.JoinActivity.id !== activity.id
           );
+
           if (alreadyExists) {
             Activities.push(activity);
           }

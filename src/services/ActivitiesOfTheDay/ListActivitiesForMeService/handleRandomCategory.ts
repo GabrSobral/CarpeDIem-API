@@ -1,7 +1,7 @@
 import { Answer } from '../../../entities/Answer';
 
 class handleRandomCategory {
-  execute(answersSum: number[], userAnswers: Answer[]) {
+  execute(answersSum: number[], userAnswers: Answer[], hasFeedback: boolean) {
     const random = Math.round(
       Math.random() * answersSum[answersSum.length - 1]
     );
@@ -24,7 +24,7 @@ class handleRandomCategory {
         currentCategory = userAnswers[i].category;
         break;
       }
-      if (random <= answersSum[answersSum.length - 1]) {
+      if (random <= answersSum[answersSum.length - 1] && hasFeedback) {
         console.log('feedback');
         currentCategory = 'feedback';
         break;
