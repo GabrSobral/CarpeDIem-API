@@ -8,6 +8,10 @@ class ShowOneActivityService {
     const activity = await activitiesRepository
     .findOne(id, { relations: ["JoinCategory"] })
 
+    if(!activity){
+      throw new Error('Activity not found status:400')
+    }
+
     const [ formattedActivity ] = await handlePutFilesInActivities([activity])
 
     return formattedActivity
