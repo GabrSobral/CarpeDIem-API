@@ -10,7 +10,7 @@ class CreateAnswerService {
     const { answerRepository, questionRepository } = handleGetRepositories()
 
     const questions = await questionRepository.find()
-
+    console.log(answer.length, questions.length)
     if(answer.length !== questions.length){
       throw new Error(`You have to answer all questions, ${questions.length - answer.length} remaining status:400`)
     }
