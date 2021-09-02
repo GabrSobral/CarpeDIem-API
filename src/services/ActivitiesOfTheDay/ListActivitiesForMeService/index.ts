@@ -65,7 +65,9 @@ class ListActivitiesForMeService {
       const average = answersSum[answersSum.length - 1] / userAnswers.length;
       answersSum.push(answersSum[answersSum.length - 1] + average); // user feedback chance
     }
+    try{
 
+   
     for (let index = 0; index < quantityOfActivitiesInList; index++) {
       filteredActivities = [];
       const currentCategory = handleRandomCategory(answersSum, userAnswers, hasFeedback);
@@ -84,7 +86,6 @@ class ListActivitiesForMeService {
         orderedActivities.push(activity[0]);
         continue;
       }
-
       const badFeedbackRandom = Math.round(Math.random() * 10);
 
       if (badFeedbackRandom <= 8) {
@@ -138,6 +139,10 @@ class ListActivitiesForMeService {
     await handleSaveInDB.users(userData);
 
     return orderedActivitiesWithFiles;
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 export default new ListActivitiesForMeService();
