@@ -15,7 +15,17 @@ class AuthenticateUser {
 
     const user = await userRepository.findOne(
       { email }, 
-      { select: ["id", "password", 'email', 'name', 'created_at', 'updated_at'] })
+      { select: [
+        "id", 
+        "password", 
+        'email', 
+        'name', 
+        'created_at', 
+        'updated_at',
+        'quantity_of_activities',
+        'activities_finished_today',
+        'all_activities_finished'
+      ] })
 
     if(!user){
       throw new Error("Email/password invalid status:400")
