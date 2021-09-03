@@ -1,16 +1,21 @@
 import { hash } from 'bcryptjs'
+import { User } from '../entities/User'
 import handleGenerateToken from "./handleGenerateToken";
 import handleGetRepositories from "../../utils/handleGetRepositories";
 
-interface User {
+interface UserProps {
   name: string;
   email: string;
   password: string;
   role?: string | undefined;
 };
 
+interface IUser extends User {
+  hasAnswered?: boolean;
+}
+
 class CreateUserService{
-  async execute({name, email, password, role}: User){
+  async execute({name, email, password, role}: UserProps){
     const { userRepository } = handleGetRepositories()
     const userAlreadyExists = await userRepository.findOne({email})
 
@@ -26,11 +31,13 @@ class CreateUserService{
       email: lowercaseEmail,
       password: encryptedPassword,
       role
-    })
+    }) as IUser
     await userRepository.save(user)
 
     const token = handleGenerateToken(user)
     delete user.password
+
+    user.hasAnswered: false
 
     return { user, token }
   }
