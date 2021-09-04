@@ -8,7 +8,7 @@ interface IAuthenticateUser {
   password: string
 }
 interface IUser extends User{
-  hasAnwered: boolean
+  hasAnswered: boolean
 }
 
 class AuthenticateUser {
@@ -46,7 +46,7 @@ class AuthenticateUser {
     .where("answers.user = :user", { user: user.id })
     .getOne()
 
-    user.hasAnwered = hasAnswers ? true : false
+    user.hasAnswered = hasAnswers ? true : false
 
     return { user, token }
   }
