@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs'
-import { User } from '../entities/User'
 import handleGenerateToken from "./handleGenerateToken";
 import handleGetRepositories from "../../utils/handleGetRepositories";
+import { User } from '../../entities/User';
 
 interface UserProps {
   name: string;
@@ -37,7 +37,7 @@ class CreateUserService{
     const token = handleGenerateToken(user)
     delete user.password
 
-    user.hasAnswered: false
+    user.hasAnswered = false
 
     return { user, token }
   }
