@@ -10,6 +10,7 @@ class SendSOSMessageService {
 
     console.log('console hihihi: ', to)
     try {
+      console.log("private key: ",process.env.VONAGE_PRIVATE_KEY_PATH)
       vonage.channel.send(
         { type: "whatsapp", number: to },
         { type: "whatsapp", number: from },
