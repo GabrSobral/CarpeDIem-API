@@ -40,6 +40,7 @@ import ListAllArchiveActivityController from "./controllers/ArchiveActivity/List
 import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackController";
 import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
+import SendSOSMessageController from "./controllers/User/SendSOSMessageController";
 
 
 const routes = Router()
@@ -47,6 +48,7 @@ const routes = Router()
 routes.post('/users', CreateUserController.handle)
 routes.get('/users', CheckAuth, CheckAdmin,ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
+routes.post('/users/sms', SendSOSMessageController.handle)
 
 routes.patch('/activity/update/:id', CheckAuth, CheckAdmin, ChangeActivityController.handle) //ADMIN
 routes.post('/activity/new', CheckAuth, CheckAdmin,CreateActivityController.handle) //ADMIN
