@@ -8,19 +8,23 @@ class SendSOSMessageService {
     const from = "14157386170"
     // const to = "5513991599324"
 
-    vonage.channel.send(
-      { type: "whatsapp", number: to },
-      { type: "whatsapp", number: from },
-      { content: { type: "text", text } },
-
-      (err, data) => {
-        if (err) {
-          console.error(err);
-          throw new Error("Error on send emergency message status:400")
+    console.log('console hihihi: ', to)
+    try {
+      vonage.channel.send(
+        { type: "whatsapp", number: to },
+        { type: "whatsapp", number: from },
+        { content: { type: "text", text } },
+  
+        (err, data) => {
+          if (err) {
+            console.error(err);
+            throw new Error("Error on send emergency message status:400")
+          }
         }
-      }
-    )
-    return
+      )
+    } catch(error) {
+      console.log(error)
+    } finally { return }
   }
 }
 export default new SendSOSMessageService()
