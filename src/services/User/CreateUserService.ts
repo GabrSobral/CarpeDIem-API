@@ -17,6 +17,7 @@ interface IUser extends User {
 class CreateUserService{
   async execute({name, email, password, role}: UserProps){
     const { userRepository } = handleGetRepositories()
+
     const userAlreadyExists = await userRepository.findOne({email})
 
     if(userAlreadyExists){
@@ -33,13 +34,22 @@ class CreateUserService{
       role
     }) as IUser
     await userRepository.save(user)
+    const userWithAllData = await userRepository.findOne(
+      { email }, 
+      { select: [
+        "id", 
+        'email', 
+        'name', 
+        'created_at', 
+        'updated_at',
+        'quantity_of_activities',
+        'activities_finished_today',
+        'all_activities_finished'
+      ] })
 
     const token = handleGenerateToken(user)
-    delete user.password
 
-    user.hasAnswered = false
-
-    return { user, token }
+    return { userWithAllData, token }
   }
 };
 
