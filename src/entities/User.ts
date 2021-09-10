@@ -39,6 +39,12 @@ export class User {
   @UpdateDateColumn()
   updated_at: string;
 
+  @Column({ select: false })
+  password_reset_token: string;
+
+  @Column({ select: false })
+  password_reset_expires: Date;
+
   constructor(){
     if(!this.id){
       this.id = uuid();
