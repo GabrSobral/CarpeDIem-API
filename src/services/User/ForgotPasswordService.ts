@@ -14,6 +14,7 @@ class ForgotPasswordService {
 
     const token = randomBytes(20).toString('hex')
     const currentDate = new Date()
+    currentDate.setHours(currentDate.getHours() + 1)
 
     await userRepository.update(user.id, { 
       password_reset_expires: currentDate,

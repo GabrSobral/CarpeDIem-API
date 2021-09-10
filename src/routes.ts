@@ -6,6 +6,9 @@ import { CheckAdmin } from './middlewares/CheckAdmin'
 import ListUsersController from "./controllers/User/ListUsersController";
 import CreateUserController from "./controllers/User/CreateUserController";
 import AuthenticateUserController from "./controllers/User/AuthenticateUserController";
+import SendSOSMessageController from "./controllers/User/SendSOSMessageController";
+import ForgotPasswordController from "./controllers/User/ForgotPasswordController";
+import ResetPasswordController from "./controllers/User/ResetPasswordController";
 
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
@@ -40,8 +43,7 @@ import ListAllArchiveActivityController from "./controllers/ArchiveActivity/List
 import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackController";
 import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
-import SendSOSMessageController from "./controllers/User/SendSOSMessageController";
-import ForgotPasswordController from "./controllers/User/ForgotPasswordController";
+
 
 const routes = Router()
 
@@ -50,6 +52,7 @@ routes.get('/users', CheckAuth, CheckAdmin,ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 routes.post('/users/sms', SendSOSMessageController.handle)
 routes.post('/users/forgot-password', ForgotPasswordController.handle)
+routes.post('/users/reset-password', ResetPasswordController.handle)
 
 routes.patch('/activity/update/:id', CheckAuth, CheckAdmin, ChangeActivityController.handle) //ADMIN
 routes.post('/activity/new', CheckAuth, CheckAdmin,CreateActivityController.handle) //ADMIN
