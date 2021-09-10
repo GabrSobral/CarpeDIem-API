@@ -41,7 +41,7 @@ import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackContr
 import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 import SendSOSMessageController from "./controllers/User/SendSOSMessageController";
-
+import ForgotPasswordController from "./controllers/User/ForgotPasswordController";
 
 const routes = Router()
 
@@ -49,6 +49,7 @@ routes.post('/users', CreateUserController.handle)
 routes.get('/users', CheckAuth, CheckAdmin,ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 routes.post('/users/sms', SendSOSMessageController.handle)
+routes.post('/users/forgot-password', ForgotPasswordController.handle)
 
 routes.patch('/activity/update/:id', CheckAuth, CheckAdmin, ChangeActivityController.handle) //ADMIN
 routes.post('/activity/new', CheckAuth, CheckAdmin,CreateActivityController.handle) //ADMIN
