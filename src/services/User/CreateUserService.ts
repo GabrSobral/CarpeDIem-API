@@ -34,8 +34,9 @@ class CreateUserService{
       role
     }) as IUser
     await userRepository.save(user)
+
     const userWithAllData = await userRepository.findOne(
-      { email }, 
+      { email: lowercaseEmail }, 
       { select: [
         "id", 
         'email', 
