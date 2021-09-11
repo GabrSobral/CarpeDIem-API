@@ -5,8 +5,9 @@ import handleGetRepositories from "../../utils/handleGetRepositories"
 class ForgotPasswordService {
   async execute(email: string) {
     const { userRepository } = handleGetRepositories()
+    const emailLowercase = email.toLowerCase()
 
-    const user = await userRepository.findOne({ email })
+    const user = await userRepository.findOne({ email: emailLowercase })
 
     if(!user) {
       throw new Error('User not found status:400')
@@ -21,7 +22,7 @@ class ForgotPasswordService {
       password_reset_token: token
     })
 
-    await SendEmail(email, token)
+    await SendEmail(emailLowercase, token)
 
     return
   }
