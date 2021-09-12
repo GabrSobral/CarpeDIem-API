@@ -50,7 +50,7 @@ class CreateUserService{
 
     const token = handleGenerateToken(user)
 
-    return { userWithAllData, token }
+    return { user: userWithAllData, token }
   }
 };
 
