@@ -9,6 +9,8 @@ import AuthenticateUserController from "./controllers/User/AuthenticateUserContr
 import SendSOSMessageController from "./controllers/User/SendSOSMessageController";
 import ForgotPasswordController from "./controllers/User/ForgotPasswordController";
 import ResetPasswordController from "./controllers/User/ResetPasswordController";
+import DeleteUser from "./controllers/User/DeleteUser";
+
 
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
@@ -44,7 +46,7 @@ import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackContr
 import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 import ChangePasswordController from "./controllers/User/ChangePasswordController";
-import DeleteUser from "./controllers/User/DeleteUser";
+import ChangeUserDataController from "./controllers/User/ChangeUserDataController";
 
 
 const routes = Router()
@@ -56,6 +58,7 @@ routes.post('/users/sms', SendSOSMessageController.handle)
 routes.post('/users/forgot-password', ForgotPasswordController.handle)
 routes.post('/users/reset-password', ResetPasswordController.handle)
 routes.post('/users/change-password', CheckAuth,ChangePasswordController.handle)
+routes.patch('/users', ChangeUserDataController.handle)
 
 routes.delete('/users/:id', DeleteUser)
 

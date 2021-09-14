@@ -6,8 +6,6 @@ class ChangePasswordController {
     const user_id = request.user_id
     const { oldPassword, newPassword } = request.body
 
-    console.log("aaaa",user_id)
-
     await ChangePasswordService.execute(oldPassword, newPassword, user_id)
 
     return response.sendStatus(200)
