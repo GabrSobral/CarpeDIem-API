@@ -54,11 +54,11 @@ const routes = Router()
 routes.post('/users', CreateUserController.handle)
 routes.get('/users', CheckAuth, CheckAdmin,ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
-routes.post('/users/sms', SendSOSMessageController.handle)
+routes.post('/users/sms', CheckAuth, SendSOSMessageController.handle)
 routes.post('/users/forgot-password', ForgotPasswordController.handle)
 routes.post('/users/reset-password', ResetPasswordController.handle)
 routes.post('/users/change-password', CheckAuth,ChangePasswordController.handle)
-routes.patch('/users', ChangeUserDataController.handle)
+routes.patch('/users', CheckAuth, ChangeUserDataController.handle)
 
 routes.delete('/users/:id', DeleteUser)
 
