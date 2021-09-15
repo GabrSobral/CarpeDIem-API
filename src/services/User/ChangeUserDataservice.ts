@@ -10,7 +10,7 @@ class ChangeUserDataService {
     let user = await userRepository.findOne( user_id )
     
     const newuser = { ...user, ...args[0] }
-    await userRepository.save(newuser)
+    await userRepository.update(user.id, newuser)
     return newuser
   }
 }
