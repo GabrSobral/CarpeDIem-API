@@ -43,7 +43,6 @@ class CreateAnswerService {
             category: String(item.category),
             answer: String(answer.answer),
           })
-          console.log('answerToSave', answerToSave)
           await answerRepository.save(answerToSave)
         }
       })
