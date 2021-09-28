@@ -65,80 +65,80 @@ class ListActivitiesForMeService {
       const average = answersSum[answersSum.length - 1] / userAnswers.length;
       answersSum.push(answersSum[answersSum.length - 1] + average); // user feedback chance
     }
+
     try{
-
    
-    for (let index = 0; index < quantityOfActivitiesInList; index++) {
-      filteredActivities = [];
-      const currentCategory = handleRandomCategory(answersSum, userAnswers, hasFeedback);
+      for (let index = 0; index < quantityOfActivitiesInList; index++) {
+        filteredActivities = [];
+        const currentCategory = handleRandomCategory(answersSum, userAnswers, hasFeedback);
 
-      if (currentCategory === 'feedback') {
-        let random = Math.floor(
-          Math.random() * (goodFeedback.length - 1 - 0 + 1) + 0
-        );
-        const activity = allActivities.filter(
-          (item) => item.id === goodFeedback[random]?.JoinActivity.id
-        );
-        if (orderedActivities.indexOf(activity[0]) !== -1) {
-          index = index - 1;
+        if (currentCategory === 'feedback') {
+          let random = Math.floor(
+            Math.random() * (goodFeedback.length - 1 - 0 + 1) + 0
+          );
+          const activity = allActivities.filter(
+            (item) => item.id === goodFeedback[random]?.JoinActivity.id
+          );
+          if (orderedActivities.indexOf(activity[0]) !== -1) {
+            index = index - 1;
+            continue;
+          }
+          orderedActivities.push(activity[0]);
           continue;
         }
-        orderedActivities.push(activity[0]);
-        continue;
-      }
-      const badFeedbackRandom = Math.round(Math.random() * 10);
+        const badFeedbackRandom = Math.round(Math.random() * 10);
 
-      if (badFeedbackRandom <= 8) {
-        const Activities: Activity[] = [];
+        if (badFeedbackRandom <= 8) {
+          const Activities: Activity[] = [];
 
-        allActivities.forEach((activity) => {
-          const alreadyExists = badFeedback.every(
-            (item) => item?.JoinActivity.id !== activity.id
-          );
+          allActivities.forEach((activity) => {
+            const alreadyExists = badFeedback.every(
+              (item) => item?.JoinActivity.id !== activity.id
+            );
 
-          if (alreadyExists) {
-            Activities.push(activity);
+            if (alreadyExists) {
+              Activities.push(activity);
+            }
+          });
+          allActivities = Activities;
+        }
+
+        allActivities.forEach((item) => {
+          if (filteredActivities.indexOf(item) !== -1) {
+            return;
+          }
+
+          if (currentCategory === item.category) {
+            filteredActivities.push(item);
           }
         });
-        allActivities = Activities;
+
+        const max = filteredActivities.length - 1;
+        const min = 0;
+        let random = Math.floor(Math.random() * (max - min + 1) + min);
+
+        const checkIfArrayIsTheSame = (array: Array<any>, target: Array<any>) =>
+          target.every((v) => array.includes(v));
+
+        if (checkIfArrayIsTheSame(orderedActivities, filteredActivities)) {
+          index = index - 1;
+        } else {
+          while (orderedActivities.indexOf(filteredActivities[random]) !== -1) {
+            random = Math.floor(Math.random() * (max - min + 1) + min);
+          }
+          includedActivityIndex.push(random);
+          orderedActivities.push(filteredActivities[random]);
+        }
       }
 
-      allActivities.forEach((item) => {
-        if (filteredActivities.indexOf(item) !== -1) {
-          return;
-        }
+      const orderedActivitiesWithFiles = await handlePutFilesInActivities(
+        orderedActivities
+      );
 
-        if (currentCategory === item.category) {
-          filteredActivities.push(item);
-        }
-      });
+      await handleSaveInDB.activities(orderedActivities, user);
+      await handleSaveInDB.users(userData);
 
-      const max = filteredActivities.length - 1;
-      const min = 0;
-      let random = Math.floor(Math.random() * (max - min + 1) + min);
-
-      const checkIfArrayIsTheSame = (array: Array<any>, target: Array<any>) =>
-        target.every((v) => array.includes(v));
-
-      if (checkIfArrayIsTheSame(orderedActivities, filteredActivities)) {
-        index = index - 1;
-      } else {
-        while (orderedActivities.indexOf(filteredActivities[random]) !== -1) {
-          random = Math.floor(Math.random() * (max - min + 1) + min);
-        }
-        includedActivityIndex.push(random);
-        orderedActivities.push(filteredActivities[random]);
-      }
-    }
-
-    const orderedActivitiesWithFiles = await handlePutFilesInActivities(
-      orderedActivities
-    );
-
-    await handleSaveInDB.activities(orderedActivities, user);
-    await handleSaveInDB.users(userData);
-
-    return orderedActivitiesWithFiles;
+      return orderedActivitiesWithFiles;
 
     } catch (error) {
       console.log(error)

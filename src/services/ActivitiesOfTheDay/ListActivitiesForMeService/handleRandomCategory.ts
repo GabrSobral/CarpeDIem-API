@@ -25,7 +25,6 @@ class handleRandomCategory {
         break;
       }
       if (random <= answersSum[answersSum.length - 1] && hasFeedback) {
-        console.log('feedback');
         currentCategory = 'feedback';
         break;
       }
