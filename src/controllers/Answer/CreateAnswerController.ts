@@ -4,10 +4,10 @@ import CreateAnswerService from "../../services/Answer/CreateAnswerService";
 class CreateAnswerController {
   async handle(request: Request, response: Response){
     const user = request.user_id
-    const { answer } = request.body
+    const answers = request.body
 
     const myAnswer = await CreateAnswerService.execute(
-      { user, answer }
+      { user, answers }
     )
 
     return response.json(myAnswer)

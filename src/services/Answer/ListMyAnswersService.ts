@@ -8,7 +8,6 @@ class ListMyAnswersService {
   async execute({ user }: ListMyAnswersServiceProps){
     const { answerRepository } = handleGetRepositories()
 
-    console.log(user)
     const myAnswers = await answerRepository
     .createQueryBuilder("answer")
     .where("answer.user = :user", { user })
