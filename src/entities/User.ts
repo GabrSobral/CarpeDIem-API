@@ -45,6 +45,9 @@ export class User {
   @Column({ select: false })
   password_reset_expires: Date;
 
+  @Column()
+  last_activity_request: Date;
+
   constructor(){
     if(!this.id){
       this.id = uuid();
