@@ -26,12 +26,14 @@ class handleVerifyAcivityValidity{
       userData.last_activity_request.getMonth(),
       userData.last_activity_request.getDate(),
       userData.last_activity_request.getHours(),
-      userData.last_activity_request.getMinutes() + 10,
+      userData.last_activity_request.getMinutes() + 5,
       userData.last_activity_request.getSeconds()
     )
 
-    if( currentDate.getTime() < fewMinutes.getTime() ){
+    if( currentDate.getTime() < fewMinutes.getTime() ) {
       throw new Error("You already request the activities, try again tomorrow status:400")}
+
+    await userRepository.update({ id: user }, { last_activity_request: currentDate })
   }
 }
 export default new handleVerifyAcivityValidity().execute
