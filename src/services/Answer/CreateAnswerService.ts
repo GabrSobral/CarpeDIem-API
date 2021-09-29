@@ -19,7 +19,7 @@ class CreateAnswerService {
 
     const alreadyAnswered = await answerRepository.find({ where: { user } })
 
-    if(alreadyAnswered){
+    if(alreadyAnswered.length !== 0){
       await Promise.all(questions.map(async (item) => {
         answers.forEach(async (answer) => {
           if(String(item.id) === String(answer.question)) {
