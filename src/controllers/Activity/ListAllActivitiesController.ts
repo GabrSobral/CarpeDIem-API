@@ -3,7 +3,8 @@ import ListAllActivitiesService from "../../services/Activity/ListAllActivitiesS
 
 class ListAllActivitiesController {
   async handle(request: Request, response: Response){
-    const allActivities = await ListAllActivitiesService.execute()
+    const user_id = request.user_id
+    const allActivities = await ListAllActivitiesService.execute(user_id)
 
     return response.json(allActivities)
   }
