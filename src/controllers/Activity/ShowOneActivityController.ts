@@ -4,8 +4,9 @@ import ShowOneActivityService from "../../services/Activity/ShowOneActivityServi
 class ShowOneActivityController {
   async handle(request: Request, response: Response) {
     const id = request.params.id
+    const user_id = request.user_id
 
-    const formattedActivity = await ShowOneActivityService.execute(id)
+    const formattedActivity = await ShowOneActivityService.execute(id, user_id)
 
     return response.json(formattedActivity)
   }
