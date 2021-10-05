@@ -18,7 +18,7 @@ class ListMyActivitiesService {
       return activity
     }))
 
-    const myActivitiesFormatted = await handlePutFilesInActivities(activities, user)
+    const myActivitiesFormatted = await handlePutFilesInActivities({activities, user_id: user})
 
     return myActivitiesFormatted
   }

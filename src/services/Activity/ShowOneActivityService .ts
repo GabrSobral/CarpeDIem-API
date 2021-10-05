@@ -12,7 +12,7 @@ class ShowOneActivityService {
       throw new Error('Activity not found status:400')
     }
 
-    const [ formattedActivity ] = await handlePutFilesInActivities([activity], user_id)
+    const [ formattedActivity ] = await handlePutFilesInActivities({ activities: [activity], user_id })
 
     return formattedActivity
   }

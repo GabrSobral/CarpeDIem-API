@@ -131,7 +131,8 @@ class ListActivitiesForMeService {
         }
       }
 
-      const orderedActivitiesWithFiles = await handlePutFilesInActivities(orderedActivities, user);
+      const orderedActivitiesWithFiles = await handlePutFilesInActivities({
+        activities: orderedActivities, user_id: user});
 
       await handleSaveInDB.activities(orderedActivities, user);
       await handleSaveInDB.users(userData);
