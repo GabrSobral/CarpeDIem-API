@@ -1,146 +1,91 @@
-import { Activity } from '../../../entities/Activity';
+import { Activity } from "../../../entities/Activity";
 
-import handleGetRepositories from '../../../utils/handleGetRepositories';
-import handlePutFilesInActivities from '../../../utils/handlePutFilesInActivities';
-import handleRandomCategory from './handleRandomCategory';
-import handleSaveInDB from './handleSaveInDB';
-import handleVerifyActivityValidity from './handleVerifyActivityValidity';
+import handleGetRepositories from "../../../utils/handleGetRepositories";
+import handlePutFilesInActivities from "../../../utils/handlePutFilesInActivities";
+import handleAnswersSum from './handleAnswersSum'
+import handleRandomCategory from './handleRandomCategory'
+import handleSaveInDB from "./handleSaveInDB";
+import handleVerifyActivityValidity from "./handleVerifyActivityValidity";
 
-class ListActivitiesForMeService {
-  async execute(user: string) {
-    let filteredActivities = [] as Activity[];
-    const orderedActivities = [] as Activity[];
-    const includedActivityIndex = [] as number[];
-    const answersSum = [];
-    let currentAnswerSum = 0;
-    let previousAnswerSum = 0;
+class ListActivitiesForMeTest {
+  async execute(user_id: string) {
+    const { 
+      feedbackRepository, 
+      activitiesRepository, 
+      userRepository } = handleGetRepositories();
 
-    const {
-      userRepository,
-      answerRepository,
-      feedbackRepository,
-      activitiesRepository
-    } = handleGetRepositories();
+    const userData = await userRepository.findOne({ id: user_id })
 
-    await handleVerifyActivityValidity(user);
+    if(!userData) {
+      throw new Error('User not found status:400');}
 
-    const userData = await userRepository.findOne(user);
+    await handleVerifyActivityValidity(userData)
 
-    if (!userData) {
-      throw new Error('User not found status:400');
-    }
-    const quantityOfActivitiesInList = userData.quantity_of_activities;
+    const orderedActivities = []
+    
+    const allFeedbacks = await feedbackRepository.find(
+      { where: { user: user_id }, relations: ["JoinActivity", "JoinCategory"] })
+      
+    let goodFeedbacks = allFeedbacks.filter((item) => item.feedback);
+    let badFeedbacks = allFeedbacks.filter((item) => !item.feedback);
 
-    const userAnswers = await answerRepository
-      .createQueryBuilder('answer')
-      .where('answer.user = :user', { user })
-      .getMany();
+    const answersSum = await handleAnswersSum(user_id, !!allFeedbacks.length);
 
-    if (userAnswers.length === 0) {
-      throw new Error('User dont have answers yet status:400');
-    }
+    for (let i = 0; i < userData.quantity_of_activities + 1; i++) {
+      const category = handleRandomCategory({answersSum});
+      
+      if(category === "FEEDBACK") {
+        const feedbackFiltered = [];
 
-    let allActivities = await activitiesRepository.find({
-      relations: ['JoinCategory']
-    });
-
-    userAnswers.forEach((item) => {
-      currentAnswerSum = Number(item.answer);
-      answersSum.push(previousAnswerSum + currentAnswerSum);
-      previousAnswerSum = currentAnswerSum;
-    });
-
-    const feedBackUser = await feedbackRepository.find({
-      where: { user },
-      relations: ['JoinActivity']
-    });
-    let goodFeedback = feedBackUser.filter((item) => item.feedback);
-    let badFeedback = feedBackUser.filter((item) => !item.feedback);
-    const hasFeedback = goodFeedback.length !== 0 ? true : false
-
-    console.log('good:', goodFeedback)
-    console.log('bad:', badFeedback)
-
-    if (hasFeedback) {
-      const average = answersSum[answersSum.length - 1] / userAnswers.length;
-      answersSum.push(answersSum[answersSum.length - 1] + average); // user feedback chance
-    }
-
-    try{
-   
-      for (let index = 0; index < quantityOfActivitiesInList; index++) {
-        filteredActivities = [];
-        const currentCategory = handleRandomCategory(answersSum, userAnswers, hasFeedback);
-
-        if (currentCategory === 'feedback') {
-          let random = Math.floor(
-            Math.random() * (goodFeedback.length - 1 - 0 + 1) + 0
-          );
-          const activity = allActivities.filter(
-            (item) => item.id === goodFeedback[random]?.JoinActivity.id
-          );
-          if (orderedActivities.indexOf(activity[0]) !== -1) {
-            index = index - 1;
-            continue;
-          }
-          orderedActivities.push(activity[0]);
-          continue;
-        }
-        const badFeedbackRandom = Math.round(Math.random() * 10);
-
-        if (badFeedbackRandom <= 8) {
-          const Activities: Activity[] = [];
-
-          allActivities.forEach((activity) => {
-            const alreadyExists = badFeedback.every(
-              (item) => item?.JoinActivity.id !== activity.id
-            );
-
-            if (alreadyExists) {
-              Activities.push(activity);
-            }
-          });
-          allActivities = Activities;
-        }
-
-        allActivities.forEach((item) => {
-          if (filteredActivities.indexOf(item) !== -1) {
-            return;
-          }
-
-          if (currentCategory === item.category) {
-            filteredActivities.push(item);
-          }
+        goodFeedbacks.forEach((feedback) => {
+          const dontExists = orderedActivities.every((item) => item.id !== feedback.activity);
+          dontExists && feedbackFiltered.push(feedback);
         });
 
-        const max = filteredActivities.length - 1;
-        const min = 0;
-        let random = Math.floor(Math.random() * (max - min + 1) + min);
+        if (feedbackFiltered.length === 0){ i--;  continue; }
 
-        const checkIfArrayIsTheSame = (array: Array<any>, target: Array<any>) =>
-          target.every((v) => array.includes(v));
+        const randomActivityOfCategory = Math.ceil(
+          Math.random() * feedbackFiltered.length - 1);
 
-        if (checkIfArrayIsTheSame(orderedActivities, filteredActivities)) {
-          index = index - 1;
-        } else {
-          while (orderedActivities.indexOf(filteredActivities[random]) !== -1) {
-            random = Math.floor(Math.random() * (max - min + 1) + min);
-          }
-          includedActivityIndex.push(random);
-          orderedActivities.push(filteredActivities[random]);
+        const activityObject = {
+          ...feedbackFiltered[Math.abs(randomActivityOfCategory)].JoinActivity,
+          JoinCategory: feedbackFiltered[Math.abs(randomActivityOfCategory)].JoinCategory,
         }
+        orderedActivities.push(activityObject);
+        continue;
       }
 
-      const orderedActivitiesWithFiles = await handlePutFilesInActivities(orderedActivities, user);
+      const activitiesOfCategory = await activitiesRepository
+        .find({ where: { category }, relations: ["JoinCategory"] });
 
-      await handleSaveInDB.activities(orderedActivities, user);
-      await handleSaveInDB.users(userData);
+      const ActivitiesFiltered: Activity[] = [];
 
-      return orderedActivitiesWithFiles;
+      activitiesOfCategory.forEach((activity) => {
+        const dontExists = orderedActivities.every((item) => item.id !== activity.id);
+        let leavePass = true;
 
-    } catch (error) {
-      console.log(error)
+        if(Math.random() * 10 < 7){
+          const containBadFeedbacks = 
+            badFeedbacks.every((item) => item.activity === activity.id);
+
+          containBadFeedbacks && (leavePass = false);
+        };
+        
+        ( dontExists && leavePass) && ActivitiesFiltered.push(activity);
+      });
+
+      const randomActivityOfCategory = Math.ceil(Math.random() * ActivitiesFiltered.length - 1);
+
+      orderedActivities.push(ActivitiesFiltered[Math.abs(randomActivityOfCategory)]);
     }
+    
+    await handleSaveInDB.users(userData)
+    await handleSaveInDB.activities(orderedActivities, user_id)
+
+    const orderedActivitiesWithFiles = await handlePutFilesInActivities(
+      { activities: orderedActivities, user_id });
+ 
+    return orderedActivitiesWithFiles;
   }
 }
-export default new ListActivitiesForMeService();
+export default new ListActivitiesForMeTest();

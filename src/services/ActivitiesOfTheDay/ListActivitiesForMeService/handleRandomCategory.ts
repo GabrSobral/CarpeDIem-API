@@ -1,35 +1,22 @@
-import { Answer } from '../../../entities/Answer';
+interface handleRandomCategoryProps {
+  answersSum: {
+    category: string;
+    answerRange: number[]
+  }[]
+}
 
 class handleRandomCategory {
-  execute(answersSum: number[], userAnswers: Answer[], hasFeedback: boolean) {
-    const random = Math.round(
-      Math.random() * answersSum[answersSum.length - 1]
-    );
-    let currentCategory = '';
+  execute({ answersSum }: handleRandomCategoryProps) {
+    const randomCategoryRange = Math.round(
+      Math.random() * answersSum[answersSum.length -1].answerRange[1])
 
-    for (let i = 0; i < answersSum.length; i++) {
-      if (i === 0) {
-        if (random <= answersSum[i]) {
-          currentCategory = userAnswers[i].category;
-          break;
-        }
+    const [{ category }] = answersSum.filter(item => {
+      if((item.answerRange[0] <= randomCategoryRange) && (item.answerRange[1] >= randomCategoryRange)) {
+        return item.category
       }
+    })
 
-      if (random > answersSum[i] && random <= answersSum[i + 1]) {
-        currentCategory = userAnswers[i + 1].category;
-        break;
-      }
-
-      if (random <= answersSum[i]) {
-        currentCategory = userAnswers[i].category;
-        break;
-      }
-      if (random <= answersSum[answersSum.length - 1] && hasFeedback) {
-        currentCategory = 'feedback';
-        break;
-      }
-    }
-    return currentCategory;
+    return category
   }
 }
 export default new handleRandomCategory().execute;

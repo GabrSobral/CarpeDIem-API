@@ -1,8 +1,15 @@
 import { Activity } from "../entities/Activity"
 import handleGetRepositories from "../utils/handleGetRepositories"
+import handlePutFeedbackCount from "./handlePutFeedbackCount"
+
+interface handlePutFilesInActivitiesProps {
+  activities: Activity[];
+  user_id: string;
+  feedbackCMD?: "count" | "select";
+}
 
 class handlePutFilesInActivities {
-  async execute(activities: Activity[], user_id: string){
+  async execute({ activities, user_id, feedbackCMD = "select" }: handlePutFilesInActivitiesProps){
     const { archiveActivityRepository, feedbackRepository } = handleGetRepositories()
 
     const activitiesThatHaveFiles = await Promise.all(activities.map(async (item) => {
@@ -11,8 +18,21 @@ class handlePutFilesInActivities {
           relations: ['JoinArchive', 'JoinActivity', 'JoinCategory'], 
           where: { activity: item.id }
         })
-      const FeedbackActivity = await feedbackRepository
+      
+      let feedback = {};
+
+      if(feedbackCMD === "select") {
+        const FeedbackActivity = await feedbackRepository
         .findOne({ where: { user: user_id, activity: item.id }})
+
+        feedback = {
+          feedback: FeedbackActivity ? FeedbackActivity.feedback : undefined,
+          created_at: FeedbackActivity ? FeedbackActivity.created_at : undefined
+        }
+      } else {
+        feedback = await handlePutFeedbackCount(item)
+      }
+     
 
       const files = ActivityFiles.map(file => ({
         id: file.JoinArchive.id,
@@ -37,10 +57,7 @@ class handlePutFilesInActivities {
         created_at: item.created_at,
         updated_at: item.updated_at,
         files,
-        feedback: {
-          feedback: FeedbackActivity ? FeedbackActivity.feedback : undefined,
-          created_at: FeedbackActivity ? FeedbackActivity.created_at : undefined
-        }
+        feedback
       }
     }))
 
