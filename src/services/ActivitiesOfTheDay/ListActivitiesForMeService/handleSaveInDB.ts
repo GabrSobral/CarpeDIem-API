@@ -8,12 +8,7 @@ class handleSaveInDB {
     const { activitiesOfTheDayRepository } = handleGetRepositories()
     const currentDate = new Date().toUTCString()
     
-    await activitiesOfTheDayRepository
-    .createQueryBuilder()
-    .delete()
-    .from(ActivitiesOfTheDay)
-    .where('destined_to = :user', { user })
-    .execute()
+    await activitiesOfTheDayRepository.delete({ destined_to: user })
 
     for (let index = 0; index < orderedActivities.length; index++) {
       const activity = orderedActivities[index].id
@@ -25,6 +20,7 @@ class handleSaveInDB {
       await activitiesOfTheDayRepository.save(activitiesOfTheDay)
     }
   }
+  
   async users(user: User){
     const { userRepository } = handleGetRepositories()
     user.activities_finished_today = 0

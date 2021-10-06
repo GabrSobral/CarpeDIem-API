@@ -3,7 +3,7 @@ import handlePutFilesInActivities from '../../utils/handlePutFilesInActivities';
 
 class ListMyFeedbacksService {
   async execute(user_id: string) {
-    const { feedbackRepository, archiveActivityRepository } = handleGetRepositories();
+    const { feedbackRepository } = handleGetRepositories();
 
     const myFeedbacks = await feedbackRepository.find({
       where: { user: user_id },
@@ -15,7 +15,7 @@ class ListMyFeedbacksService {
       JoinCategory: item.JoinCategory
     }))
 
-    const activitiesThatHaveFiles = await handlePutFilesInActivities(activities, user_id)
+    const activitiesThatHaveFiles = await handlePutFilesInActivities({activities, user_id})
 
     return activitiesThatHaveFiles;
   }
