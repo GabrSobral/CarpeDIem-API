@@ -11,21 +11,12 @@ class DeleteFeedbackService {
     const { feedbackRepository } = handleGetRepositories();
 
     const alreadyExists = await feedbackRepository
-      .createQueryBuilder('feedback')
-      .where('feedback.activity = :activity_id', { activity_id })
-      .getOne()
+      .findOne({ where: { activity: activity_id } })
 
-    if(!alreadyExists){
+    if(!alreadyExists)
       throw new Error('Feedback not exist status:400')
-    }
 
-    await feedbackRepository
-      .createQueryBuilder('feedback')
-      .delete()
-      .from(Feedback)
-      .where('user = :user_id', { user_id })
-      .andWhere('activity = :activity_id', { activity_id })
-      .execute();
+    await feedbackRepository.delete({ user: user_id, activity: activity_id })
 
     return;
   }

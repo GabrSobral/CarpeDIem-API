@@ -8,6 +8,7 @@ import { CategoryRepository } from '../repositories/CategoryRepository';
 import { FeedbackRepository } from '../repositories/FeedbackRepository';
 import { QuestionRepository } from '../repositories/QuestionRepository';
 import { UserRepository } from '../repositories/UserRepository';
+import { RefreshTokenRepository } from '../repositories/RefreshTokenRepository';
 
 class handleGetRepositories {
   execute() {
@@ -18,6 +19,7 @@ class handleGetRepositories {
     const questionRepository = getCustomRepository(QuestionRepository);
     const categoryRepository = getCustomRepository(CategoryRepository);
     const activitiesRepository = getCustomRepository(ActivityRepository);
+    const refreshTokenRepository = getCustomRepository(RefreshTokenRepository);
     const archiveActivityRepository = getCustomRepository(
       ArchiveActivityRepository
     );
@@ -33,6 +35,7 @@ class handleGetRepositories {
       questionRepository,
       categoryRepository,
       activitiesRepository,
+      refreshTokenRepository,
       archiveActivityRepository,
       activitiesOfTheDayRepository
     };

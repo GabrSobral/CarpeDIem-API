@@ -7,15 +7,15 @@ interface CreateArchiveActiviryService {
 
 class CreateArchiveActivityService {
   async execute({ activity_id, archive_id }: CreateArchiveActiviryService){
-    if(!activity_id) { throw new Error("No activity provided status:400") }
-    if(!archive_id) { throw new Error("No archive provided status:400") }
-    
+    if(!activity_id) 
+      throw new Error("No activity provided status:400")
+
+    if(!archive_id) 
+      throw new Error("No archive provided status:400")
+
     const { activitiesRepository, archiveActivityRepository } = handleGetRepositories()
 
-    const activity = await activitiesRepository
-    .createQueryBuilder('activity')
-    .where("activity.id = :id", { id: activity_id })
-    .getOne()
+    const activity = await activitiesRepository.findOne({ where: { id: activity_id }})
 
     const category = activity.category
 

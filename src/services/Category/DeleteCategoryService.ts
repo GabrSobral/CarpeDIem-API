@@ -21,40 +21,11 @@ class DeleteCategoryService {
       throw new Error("Category not exists status:400")
     }
 
-    await archiveActivityRepository
-    .createQueryBuilder()
-    .delete()
-    .from(ArchiveActivity)
-    .where('category = :category', { category: category_id })
-    .execute()
-
-    await answerRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Answer)
-    .where('category = :category', { category: category_id })
-    .execute()
-
-    await questionRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Question)
-    .where('category = :category', { category: category_id })
-    .execute()
-
-    await activitiesRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Activity)
-    .where('category = :category', { category: category_id })
-    .execute()
-
-    await categoryRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Category)
-    .where('id = :category', { category: category_id })
-    .execute()
+    await archiveActivityRepository.delete({ category: category_id })
+    await answerRepository.delete({ category: category_id })
+    await questionRepository.delete({ category: category_id })
+    await activitiesRepository.delete({ category: category_id })
+    await categoryRepository.delete({ id: category_id })
 
     return
   }

@@ -16,38 +16,30 @@ class CreateAnswerService {
     if(answers.length !== questions.length){
       throw new Error(`You have to answer all questions, ${questions.length - answers.length} remaining status:400`)
     }
+    const userAnswers = await answerRepository.find({ where: { user } })
 
-    const alreadyAnswered = await answerRepository.find({ where: { user } })
+    await Promise.all(answers.map(async (item) => {
+      const alrearyExists = userAnswers.every(
+        answer => (item.question === answer.question))
+      
+      if (alrearyExists)
+        await answerRepository.update(
+          { user, question: item.question },
+          { answer: String(item.answer) })
+      else {
+        const [{ category }] = questions.filter(question => question.id === item.question)
 
-    if(alreadyAnswered.length !== 0){
-      await Promise.all(questions.map(async (item) => {
-        answers.forEach(async (answer) => {
-          if(String(item.id) === String(answer.question)) {
-            await answerRepository.update(
-              { user, question: item.id },
-              { answer: String(answer.answer) }
-            )
-          }
+        const answerToSave = answerRepository.create({
+          user: String(user),
+          question:String(item.question), 
+          category: String(category),
+          answer: String(item.answer)
         })
-      }))
-
-      return "All questions successfully updated"
-    }
-
-    await Promise.all(questions.map(async (item) => {
-      answers.forEach(async (answer) => {
-        if(String(item.id) === String(answer.question)) {
-          const answerToSave = answerRepository.create({
-            user: String(user),
-            question:String(item.id), 
-            category: String(item.category),
-            answer: String(answer.answer),
-          })
-          await answerRepository.save(answerToSave)
-        }
-      })
+        await answerRepository.save(answerToSave)
+      }
+      return
     }))
-
+    
     return "All questions successfully answered"
   }
 }

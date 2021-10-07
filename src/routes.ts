@@ -38,7 +38,6 @@ import DeleteQuestionController from "./controllers/Question/DeleteQuestionContr
 import CreateQuestionController from "./controllers/Question/CreateQuestionController";
 import ListAllQuestionsController from "./controllers/Question/ListAllQuestionsController";
 
-import DeleteArchiveActivityController from "./controllers/ArchiveActivity/DeleteArchiveActivityController";
 import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
 
@@ -47,6 +46,7 @@ import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackContr
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 import ChangePasswordController from "./controllers/User/ChangePasswordController";
 import ChangeUserDataController from "./controllers/User/ChangeUserDataController";
+import HandleUpdateTokenController from "./controllers/RefreshToken/HandleUpdateTokenController";
 
 
 const routes = Router()
@@ -59,6 +59,8 @@ routes.post('/users/forgot-password', ForgotPasswordController.handle)
 routes.post('/users/reset-password', ResetPasswordController.handle)
 routes.post('/users/change-password', CheckAuth,ChangePasswordController.handle)
 routes.patch('/users', CheckAuth, ChangeUserDataController.handle)
+
+routes.post('/refresh-token', HandleUpdateTokenController.handle)
 
 routes.delete('/users/:id', DeleteUser)
 
@@ -90,7 +92,6 @@ routes.delete('/archive/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveControl
 
 routes.post('/archive-activity/new', CheckAuth, CheckAdmin, CreateArchiveActivityController.handle) //ADMIN
 routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController.handle)
-routes.delete('/archive-activity/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveActivityController.handle) //ADMIN
 
 routes.post('/feedback/new', CheckAuth, CreateFeedbackController.handle)
 routes.get('/feedback/my-list', CheckAuth, ListMyFeedbacksController.handle)

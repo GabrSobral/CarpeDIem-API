@@ -5,20 +5,15 @@ class ListMyActivitiesService {
   async execute(user: string){
     const { activitiesOfTheDayRepository, activitiesRepository } = handleGetRepositories()
 
-    const myActivities = await activitiesOfTheDayRepository
-    .createQueryBuilder('activity')
-    .where("activity.destined_to = :user", { user })
-    .leftJoinAndSelect('activity.JoinActivity', 'JoinActivity')
-    .getMany()
+    const myActivities = await activitiesOfTheDayRepository.find(
+      { where: { destined_to: user }, relations: ["JoinActivity"] })
 
     const activities = await Promise.all(myActivities.map(async (item) => {
-      const activity = await activitiesRepository
+      return await activitiesRepository
       .findOne(item.JoinActivity.id, { relations: [ "JoinCategory" ] })
-
-      return activity
     }))
 
-    const myActivitiesFormatted = await handlePutFilesInActivities({activities, user_id: user})
+    const myActivitiesFormatted = await handlePutFilesInActivities({activities , user_id: user})
 
     return myActivitiesFormatted
   }

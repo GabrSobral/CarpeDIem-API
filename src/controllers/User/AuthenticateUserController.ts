@@ -5,9 +5,9 @@ class AuthenticateUserController {
   async handle(request: Request, response: Response) {
     const { email, password } = request.body;
 
-    const { user, token } = await AuthenticateUser.execute({ email, password })
+    const user_data = await AuthenticateUser.execute({ email, password })
 
-    return response.json({ user, token })
+    return response.json(user_data)
   }
 }
 
