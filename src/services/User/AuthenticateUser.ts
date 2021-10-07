@@ -1,5 +1,6 @@
 import { compare } from "bcryptjs"
 import { User } from "../../entities/User"
+import handleGenerateRefreshToken from "../../utils/handleGenerateRefreshToken"
 import handleGetRepositories from "../../utils/handleGetRepositories"
 import handleGenerateToken from "./handleGenerateToken"
 
@@ -13,7 +14,7 @@ interface IUser extends User{
 
 class AuthenticateUser {
   async execute({ email, password }: IAuthenticateUser){
-    const { userRepository, answerRepository } = handleGetRepositories()
+    const { userRepository, answerRepository, refreshTokenRepository } = handleGetRepositories()
 
     email = email.toLowerCase()
 
@@ -37,13 +38,16 @@ class AuthenticateUser {
     if(!await compare(password, user.password))
       throw new Error('Email/password invalid status:400')
     
-    const token = handleGenerateToken(user)
+    const token = handleGenerateToken(user.id)
+    await refreshTokenRepository.delete({ user_id: user.id })
+    const refreshToken = await handleGenerateRefreshToken(user.id)
+
     delete user.password
 
     const hasAnswers = await answerRepository.findOne({ where: { user: user.id }})
     user.hasAnswered = hasAnswers ? true : false
 
-    return { user, token }
+    return { user, token, refreshToken }
   }
 }
 

@@ -2,11 +2,11 @@ import { sign } from "jsonwebtoken"
 import { User } from "../../entities/User"
 
 class handleGenerateToken {
-  execute(user: User){
+  execute(user_id: string){
     const token = sign(
-      { id: user.id },
+      { id: user_id },
       process.env.TOKEN_SECRET,
-      { expiresIn: 86400, subject: user.id }
+      { expiresIn: 86400, subject: user_id }
     )
     
     return token

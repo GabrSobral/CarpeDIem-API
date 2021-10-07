@@ -48,7 +48,7 @@ class CreateUserService{
         'all_activities_finished'
       ] })
 
-    const token = handleGenerateToken(user)
+    const token = handleGenerateToken(user.id)
 
     return { user: userWithAllData, token }
   }
