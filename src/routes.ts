@@ -46,6 +46,7 @@ import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackContr
 import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksController";
 import ChangePasswordController from "./controllers/User/ChangePasswordController";
 import ChangeUserDataController from "./controllers/User/ChangeUserDataController";
+import HandleUpdateTokenController from "./controllers/RefreshToken/HandleUpdateTokenController";
 
 
 const routes = Router()
@@ -58,6 +59,8 @@ routes.post('/users/forgot-password', ForgotPasswordController.handle)
 routes.post('/users/reset-password', ResetPasswordController.handle)
 routes.post('/users/change-password', CheckAuth,ChangePasswordController.handle)
 routes.patch('/users', CheckAuth, ChangeUserDataController.handle)
+
+routes.post('/refresh-token', HandleUpdateTokenController.handle)
 
 routes.delete('/users/:id', DeleteUser)
 
