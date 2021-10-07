@@ -4,36 +4,19 @@ import handleGetRepositories from "../../utils/handleGetRepositories"
 
 class DeleteActivityService{
   async execute(id: string){
-    const { activitiesRepository, archiveActivityRepository } = handleGetRepositories()
+    const { 
+      activitiesRepository, 
+      archiveActivityRepository,
+      feedbackRepository,} = handleGetRepositories()
 
-    const activityExists = await activitiesRepository
-    .createQueryBuilder()
-    .where("id = :activity", { activity: id })
-    .getOne()
+    const activityExists = await activitiesRepository.findOne({ where: { id } })
 
     if(!activityExists){  
       throw new Error("No activity found status:400")}
 
-    const ActivityFiles = await archiveActivityRepository.find({ where: { activity: id }})
-
-    if(ActivityFiles.length !== 0){
-      ActivityFiles.forEach(async (item) => {
-        await archiveActivityRepository
-        .createQueryBuilder('arch_act')
-        .delete()
-        .from(ArchiveActivity)
-        .where('activity = :activity', { activity: id })
-        .andWhere('archive = :archive', { archive: item.archive })
-        .execute()
-      })
-    }  
-
-    await activitiesRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Activity)
-    .where('id = :activity', { activity:  activityExists.id})
-    .execute()
+    await archiveActivityRepository.delete({ activity: id })  
+    await activitiesRepository.delete({ id })
+    await feedbackRepository.delete({ activity: id })
 
     return
   }

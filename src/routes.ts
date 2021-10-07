@@ -38,7 +38,6 @@ import DeleteQuestionController from "./controllers/Question/DeleteQuestionContr
 import CreateQuestionController from "./controllers/Question/CreateQuestionController";
 import ListAllQuestionsController from "./controllers/Question/ListAllQuestionsController";
 
-import DeleteArchiveActivityController from "./controllers/ArchiveActivity/DeleteArchiveActivityController";
 import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
 
@@ -90,7 +89,6 @@ routes.delete('/archive/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveControl
 
 routes.post('/archive-activity/new', CheckAuth, CheckAdmin, CreateArchiveActivityController.handle) //ADMIN
 routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController.handle)
-routes.delete('/archive-activity/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveActivityController.handle) //ADMIN
 
 routes.post('/feedback/new', CheckAuth, CreateFeedbackController.handle)
 routes.get('/feedback/my-list', CheckAuth, ListMyFeedbacksController.handle)

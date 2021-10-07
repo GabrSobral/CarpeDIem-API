@@ -11,22 +11,12 @@ class DeleteMyActivityService{
     const { activitiesOfTheDayRepository } = handleGetRepositories()
 
     const activityExists = await activitiesOfTheDayRepository
-    .createQueryBuilder()
-    .where("activity = :activity", { activity })
-    .andWhere("destined_to = :user", { user })
-    .getOne()
+      .findOne({ activity: activity, destined_to: user })
 
-    if(!activityExists){
+    if(!activityExists)
       throw new Error("Activity not found status:400")
-    }
-
-    await activitiesOfTheDayRepository
-    .createQueryBuilder()
-    .delete()
-    .from(ActivitiesOfTheDay)
-    .where("activity = :activity", { activity })
-    .andWhere("destined_to = :user", { user })
-    .execute()
+    
+    await activitiesOfTheDayRepository.delete({ activity, destined_to: user })
 
     return
   }

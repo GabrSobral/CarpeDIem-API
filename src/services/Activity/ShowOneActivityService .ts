@@ -5,8 +5,7 @@ class ShowOneActivityService {
   async execute(id: string, user_id: string){
     const { activitiesRepository } = handleGetRepositories()
 
-    const activity = await activitiesRepository
-    .findOne(id, { relations: ["JoinCategory"] })
+    const activity = await activitiesRepository.findOne(id, { relations: ["JoinCategory"] })
 
     if(!activity){
       throw new Error('Activity not found status:400')

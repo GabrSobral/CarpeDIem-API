@@ -31,21 +31,16 @@ class AuthenticateUser {
         'all_activities_finished'
       ] }) as IUser
 
-    if(!user){
+    if(!user)
       throw new Error("Email/password invalid status:400")
-    }
-    if(!await compare(password, user.password)){
+
+    if(!await compare(password, user.password))
       throw new Error('Email/password invalid status:400')
-    }
     
     const token = handleGenerateToken(user)
     delete user.password
 
-    const hasAnswers = await answerRepository
-    .createQueryBuilder('answers')
-    .where("answers.user = :user", { user: user.id })
-    .getOne()
-
+    const hasAnswers = await answerRepository.findOne({ where: { user: user.id }})
     user.hasAnswered = hasAnswers ? true : false
 
     return { user, token }

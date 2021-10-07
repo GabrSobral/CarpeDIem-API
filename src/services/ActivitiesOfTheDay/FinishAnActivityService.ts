@@ -1,4 +1,3 @@
-import { ActivitiesOfTheDay } from "../../entities/ActivitiesOfTheDay"
 import handleGetRepositories from "../../utils/handleGetRepositories"
 
 interface FinishAnActivityProps{
@@ -11,28 +10,20 @@ class FinishAnActivityService{
     const { activitiesOfTheDayRepository, userRepository } = handleGetRepositories()
 
     const activityExists = await activitiesOfTheDayRepository
-    .createQueryBuilder()
-    .where("activity = :activity", { activity })
-    .andWhere("destined_to = :user", { user })
-    .getOne()
+      .findOne({ where: { activity, destined_to: user } })
 
-    if(!activityExists){
+    if(!activityExists)
       throw new Error("Activity not found status:400")
-    }
 
-    await activitiesOfTheDayRepository
-    .createQueryBuilder()
-    .delete()
-    .from(ActivitiesOfTheDay)
-    .where("activity = :activity", { activity })
-    .andWhere("destined_to = :user", { user })
-    .execute()
+    await activitiesOfTheDayRepository.delete({ activity, destined_to: user })
 
-    const user_data = await userRepository.findOne(user)
-    user_data.activities_finished_today = user_data.activities_finished_today + 1
-    user_data.all_activities_finished = user_data.all_activities_finished + 1
-
-    await userRepository.save(user_data)
+    const userData = await userRepository.findOne({ where: { id: user }})
+    await userRepository.update(
+      { id: user }, 
+      {
+        activities_finished_today: userData.activities_finished_today + 1,
+        all_activities_finished: userData.all_activities_finished + 1
+      })
 
     return
   }

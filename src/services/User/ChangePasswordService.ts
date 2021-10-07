@@ -11,9 +11,8 @@ class ChangePasswordService {
 
     const isPasswordCorrect = await compare(oldPassword, user.password)
 
-    if(!isPasswordCorrect){
+    if(!isPasswordCorrect)
       throw new Error("Your current password is wrong status:400")
-    }
 
     const encryptedNewPassword = await hash(newPassword, 10)
 
