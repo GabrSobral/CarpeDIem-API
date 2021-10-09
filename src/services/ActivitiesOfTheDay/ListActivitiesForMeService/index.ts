@@ -19,7 +19,7 @@ class ListActivitiesForMeTest {
     if(!userData) {
       throw new Error('User not found status:400');}
 
-    await handleVerifyActivityValidity(userData)
+    // await handleVerifyActivityValidity(userData)
 
     const orderedActivities = []
     
@@ -29,9 +29,9 @@ class ListActivitiesForMeTest {
     let goodFeedbacks = allFeedbacks.filter((item) => item.feedback);
     let badFeedbacks = allFeedbacks.filter((item) => !item.feedback);
 
-    const answersSum = await handleAnswersSum(user_id, !!allFeedbacks.length);
+    const answersSum = await handleAnswersSum(user_id, !!goodFeedbacks.length);
 
-    for (let i = 0; i < userData.quantity_of_activities + 1; i++) {
+    for (let i = 0; i < userData.quantity_of_activities; i++) {
       const category = handleRandomCategory({answersSum});
       
       if(category === "FEEDBACK") {
@@ -64,7 +64,7 @@ class ListActivitiesForMeTest {
         const dontExists = orderedActivities.every((item) => item.id !== activity.id);
         let leavePass = true;
 
-        if(Math.random() * 10 < 7){
+        if(Math.random() * 10 < 7 && badFeedbacks.length !== 0){
           const containBadFeedbacks = 
             badFeedbacks.every((item) => item.activity === activity.id);
 
