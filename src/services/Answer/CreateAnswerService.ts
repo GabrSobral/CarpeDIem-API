@@ -17,12 +17,15 @@ class CreateAnswerService {
       throw new Error(`You have to answer all questions, ${questions.length - answers.length} remaining status:400`)
     }
     const userAnswers = await answerRepository.find({ where: { user } })
+    console.log(userAnswers)
 
     await Promise.all(answers.map(async (item) => {
-      const alrearyExists = userAnswers.every(
+      const alreadyExists = userAnswers.every(
         answer => (item.question === answer.question))
+
+          console.log(alreadyExists)
       
-      if (alrearyExists)
+      if (alreadyExists && userAnswers.length !== 0)
         await answerRepository.update(
           { user, question: item.question },
           { answer: String(item.answer) })
