@@ -11,7 +11,6 @@ import ForgotPasswordController from "./controllers/User/ForgotPasswordControlle
 import ResetPasswordController from "./controllers/User/ResetPasswordController";
 import DeleteUser from "./controllers/User/DeleteUser";
 
-
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
 import DeleteMyActivityController from "./controllers/ActivitiesOfTheDay/DeleteMyActivityController";
@@ -40,6 +39,7 @@ import ListAllQuestionsController from "./controllers/Question/ListAllQuestionsC
 
 import CreateArchiveActivityController from "./controllers/ArchiveActivity/CreateArchiveActivityController";
 import ListAllArchiveActivityController from "./controllers/ArchiveActivity/ListAllArchiveActivityController";
+import DeleteArchiveActivityController from "./controllers/ArchiveActivity/DeleteArchiveActivityController";
 
 import CreateFeedbackController from "./controllers/Feedback/CreateFeedbackController";
 import DeleteFeedbackController from "./controllers/Feedback/DeleteFeedbackController";
@@ -47,7 +47,6 @@ import ListMyFeedbacksController from "./controllers/Feedback/ListMyFeedbacksCon
 import ChangePasswordController from "./controllers/User/ChangePasswordController";
 import ChangeUserDataController from "./controllers/User/ChangeUserDataController";
 import HandleUpdateTokenController from "./controllers/RefreshToken/HandleUpdateTokenController";
-
 
 const routes = Router()
 
@@ -92,6 +91,7 @@ routes.delete('/archive/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveControl
 
 routes.post('/archive-activity/new', CheckAuth, CheckAdmin, CreateArchiveActivityController.handle) //ADMIN
 routes.get('/archive-activity/list', CheckAuth, ListAllArchiveActivityController.handle)
+routes.delete('/archive-activity/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveActivityController.handle) //ADMIN
 
 routes.post('/feedback/new', CheckAuth, CreateFeedbackController.handle)
 routes.get('/feedback/my-list', CheckAuth, ListMyFeedbacksController.handle)
