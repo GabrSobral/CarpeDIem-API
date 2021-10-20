@@ -49,8 +49,9 @@ class CreateUserService{
       ] })
 
     const token = handleGenerateToken(user.id)
+    const refreshToken = await handleGenerateRefreshToken(user.id)
 
-    return { user: userWithAllData, token }
+    return { user: userWithAllData, token, refreshToken }
   }
 };
 
