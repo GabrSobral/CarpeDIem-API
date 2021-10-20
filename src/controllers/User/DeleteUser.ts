@@ -6,8 +6,8 @@ class DeleteUser {
     const { id } = request.params
     const { userRepository, refreshTokenRepository } = handleGetRepositories()
 
-    await userRepository.delete(id)
     await refreshTokenRepository.delete({ user_id: id })
+    await userRepository.delete(id)
 
     return response.sendStatus(200)
   }
