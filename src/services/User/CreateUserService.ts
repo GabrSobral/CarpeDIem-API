@@ -2,6 +2,7 @@ import { hash } from 'bcryptjs'
 import handleGenerateToken from "./handleGenerateToken";
 import handleGetRepositories from "../../utils/handleGetRepositories";
 import { User } from '../../entities/User';
+import handleGenerateRefreshToken from '../../utils/handleGenerateRefreshToken';
 
 interface UserProps {
   name: string;
