@@ -13,7 +13,7 @@ class ForgotPasswordService {
       throw new Error('User not found status:400')
     }
 
-    const token = randomBytes(20).toString('hex')
+    const token = String(Math.floor(1000 + Math.random() * 9000));
     const currentDate = new Date()
     currentDate.setHours(currentDate.getHours() + 1)
 
@@ -21,8 +21,8 @@ class ForgotPasswordService {
       password_reset_expires: currentDate,
       password_reset_token: token
     })
-
-    await SendEmail(emailLowercase, token)
+    const firstName = user.name.split(' ')[0]
+    await SendEmail(emailLowercase, token, firstName)
 
     return
   }
