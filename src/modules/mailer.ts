@@ -6,7 +6,7 @@ import { google } from 'googleapis'
 const OAuth2 = google.auth.OAuth2
 
 class SendEmail {
-  async execute(email: string, token: string) {
+  async execute(email: string, token: string, username: string) {
     const host = process.env.HOST_SENDMAIL
     const user = process.env.USER_SENDMAIL
     const port = process.env.PORT_SENDMAIL
@@ -61,7 +61,7 @@ class SendEmail {
         subject: "Troca de senha",
         from: "Carpe Diem <Asgoth55@gmail.com>",
         template: 'forgotPassword',
-        context: { token, email },
+        context: { token, email, username },
       }, (err)=> {
         if(err){
           throw new Error(err)
