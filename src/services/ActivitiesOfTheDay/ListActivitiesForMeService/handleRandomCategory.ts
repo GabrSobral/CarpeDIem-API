@@ -1,3 +1,5 @@
+import RandomInteger from "../../../utils/RandomInteger"
+
 interface handleRandomCategoryProps {
   answersSum: {
     category: string;
@@ -7,8 +9,7 @@ interface handleRandomCategoryProps {
 
 class handleRandomCategory {
   execute({ answersSum }: handleRandomCategoryProps) {
-    const randomCategoryRange = Math.round(
-      Math.random() * answersSum[answersSum.length -1].answerRange[1])
+    const randomCategoryRange = RandomInteger(0, answersSum[answersSum.length -1].answerRange[1])
 
     const [{ category }] = answersSum.filter(item => {
       if((item.answerRange[0] <= randomCategoryRange) && (item.answerRange[1] >= randomCategoryRange)) {

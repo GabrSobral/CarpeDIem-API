@@ -1,7 +1,9 @@
 import { Activity } from "../../../entities/Activity";
 
 import handleGetRepositories from "../../../utils/handleGetRepositories";
+import RandomInteger from "../../../utils/RandomInteger";
 import handlePutFilesInActivities from "../../../utils/handlePutFilesInActivities";
+
 import handleAnswersSum from './handleAnswersSum'
 import handleRandomCategory from './handleRandomCategory'
 import handleSaveInDB from "./handleSaveInDB";
@@ -44,12 +46,11 @@ class ListActivitiesForMeTest {
 
         if (feedbackFiltered.length === 0){ i--;  continue; }
 
-        const randomActivityOfCategory = Math.ceil(
-          Math.random() * feedbackFiltered.length - 1);
+        const randomActivityOfCategory = RandomInteger(0, feedbackFiltered.length - 1);
 
         const activityObject = {
-          ...feedbackFiltered[Math.abs(randomActivityOfCategory)].JoinActivity,
-          JoinCategory: feedbackFiltered[Math.abs(randomActivityOfCategory)].JoinCategory,
+          ...feedbackFiltered[randomActivityOfCategory].JoinActivity,
+          JoinCategory: feedbackFiltered[randomActivityOfCategory].JoinCategory,
         }
         orderedActivities.push(activityObject);
         continue;
@@ -64,7 +65,7 @@ class ListActivitiesForMeTest {
         const dontExists = orderedActivities.every((item) => item.id !== activity.id);
         let leavePass = true;
 
-        if(Math.random() * 10 < 7 && badFeedbacks.length !== 0){
+        if((RandomInteger(0, 10) < 7) && (badFeedbacks.length !== 0)){
           const containBadFeedbacks = 
             badFeedbacks.every((item) => item.activity === activity.id);
 
@@ -74,9 +75,9 @@ class ListActivitiesForMeTest {
         ( dontExists && leavePass) && ActivitiesFiltered.push(activity);
       });
 
-      const randomActivityOfCategory = Math.ceil(Math.random() * ActivitiesFiltered.length - 1);
+      const randomActivityOfCategory = RandomInteger(0, ActivitiesFiltered.length - 1);
 
-      orderedActivities.push(ActivitiesFiltered[Math.abs(randomActivityOfCategory)]);
+      orderedActivities.push(ActivitiesFiltered[randomActivityOfCategory]);
     }
     
     await handleSaveInDB.users(userData)
