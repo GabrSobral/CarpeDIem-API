@@ -4,9 +4,10 @@ import handleGetRepositories from "../../utils/handleGetRepositories"
 class ResetPasswordService {
   async execute(newPassword: string, email: string, token: string) {
     const { userRepository } = handleGetRepositories()
+    const lowerCaseEmail = email.toLowerCase()
     
     const user = await userRepository.findOne(
-      { email }, 
+      { email: lowerCaseEmail }, 
       { select: ['id','password_reset_token', 'password_reset_expires'] })
 
     if(!user) 
