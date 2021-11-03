@@ -54,6 +54,9 @@ export class User {
   @Column()
   photo_url: string;
 
+  @Column()
+  photo_public_id: string;
+
   constructor(){
     if(!this.id){
       this.id = uuid();

@@ -50,14 +50,14 @@ import HandleUpdateTokenController from "./controllers/RefreshToken/HandleUpdate
 
 const routes = Router()
 
-routes.post('/users', CreateUserController.handle)
+routes.post('/users', upload.single('photo'), CreateUserController.handle)
 routes.get('/users', CheckAuth, CheckAdmin,ListUsersController.handle)
 routes.post('/login', AuthenticateUserController.handle)
 routes.post('/users/sms', CheckAuth, SendSOSMessageController.handle)
 routes.post('/users/forgot-password', ForgotPasswordController.handle)
 routes.post('/users/reset-password', ResetPasswordController.handle)
 routes.post('/users/change-password', CheckAuth,ChangePasswordController.handle)
-routes.patch('/users', CheckAuth, ChangeUserDataController.handle)
+routes.patch('/users', CheckAuth, upload.single('photo'), ChangeUserDataController.handle)
 
 routes.post('/refresh-token', HandleUpdateTokenController.handle)
 
@@ -85,8 +85,8 @@ routes.delete('/question/delete/:id', CheckAuth, CheckAdmin, DeleteQuestionContr
 routes.post('/answer/new', CheckAuth, CreateAnswerController.handle)
 routes.get('/answer/my-list', CheckAuth, ListMyAnswersController.handle)
 
-routes.get('/archive/list', CheckAuth, upload, ListAllArchivesController.handle)
-routes.post('/archive/new', CheckAuth, CheckAdmin, upload, CreateArchiveController.handle) //ADMIN
+routes.get('/archive/list', CheckAuth, upload.single('files'), ListAllArchivesController.handle)
+routes.post('/archive/new', CheckAuth, CheckAdmin, upload.single('files'), CreateArchiveController.handle) //ADMIN
 routes.delete('/archive/delete/:id', CheckAuth, CheckAdmin, DeleteArchiveController.handle) //ADMIN
 
 routes.post('/archive-activity/new', CheckAuth, CheckAdmin, CreateArchiveActivityController.handle) //ADMIN
