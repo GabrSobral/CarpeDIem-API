@@ -48,6 +48,15 @@ export class User {
   @Column()
   last_activity_request: Date;
 
+  @Column()
+  emergency_number: string;
+
+  @Column()
+  photo_url: string;
+
+  @Column()
+  photo_public_id: string;
+
   constructor(){
     if(!this.id){
       this.id = uuid();

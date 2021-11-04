@@ -17,27 +17,29 @@ class AuthenticateUser {
     const { userRepository, answerRepository, refreshTokenRepository } = handleGetRepositories()
 
     email = email.toLowerCase()
-
     const user = await userRepository.findOne(
       { email }, 
       { select: [
         "id", 
-        "password", 
-        'email', 
+        'email',
+        "password",
         'name', 
         'created_at', 
         'updated_at',
         'quantity_of_activities',
         'activities_finished_today',
-        'all_activities_finished'
+        'all_activities_finished',
+        'emergency_number',
+        'photo_url'
       ] }) as IUser
-
+      
     if(!user)
       throw new Error("Email/password invalid status:400")
-
+      
+    console.log(user)
     if(!await compare(password, user.password))
       throw new Error('Email/password invalid status:400')
-    
+      
     const token = handleGenerateToken(user.id)
     await refreshTokenRepository.delete({ user_id: user.id })
     const refreshToken = await handleGenerateRefreshToken(user.id)

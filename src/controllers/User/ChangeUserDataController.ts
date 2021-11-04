@@ -1,16 +1,18 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import ChangeUserDataservice from "../../services/User/ChangeUserDataservice";
 
 class ChangeUserDataController {
   async handle(request: Request, response: Response){
-    const user_id = request.user_id
+    const user_id = request.user_id;
+    const userPhoto = request.file as Express.Multer.File;
 
-    const user = await ChangeUserDataservice.execute(
+    const user = await ChangeUserDataservice.execute({
       user_id,
-      request.body
-    )
+      body: request.body,
+      photo: userPhoto,
+    })
     
-    return response.json(user)
+    return response.json(user);
   }
 }
 export default new ChangeUserDataController()
