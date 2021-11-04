@@ -10,6 +10,7 @@ import SendSOSMessageController from "./controllers/User/SendSOSMessageControlle
 import ForgotPasswordController from "./controllers/User/ForgotPasswordController";
 import ResetPasswordController from "./controllers/User/ResetPasswordController";
 import DeleteUser from "./controllers/User/DeleteUser";
+import RemoveUserPhotoController from "./controllers/User/RemoveUserPhotoController";
 
 import ListMyActivitiesController from "./controllers/ActivitiesOfTheDay/ListMyActivitiesController";
 import FinishAnActivityController from "./controllers/ActivitiesOfTheDay/FinishAnActivityController";
@@ -58,6 +59,7 @@ routes.post('/users/forgot-password', ForgotPasswordController.handle)
 routes.post('/users/reset-password', ResetPasswordController.handle)
 routes.post('/users/change-password', CheckAuth,ChangePasswordController.handle)
 routes.patch('/users', CheckAuth, upload.single('photo'), ChangeUserDataController.handle)
+routes.delete('/users/photo', CheckAuth, RemoveUserPhotoController.handle)
 
 routes.post('/refresh-token', HandleUpdateTokenController.handle)
 
