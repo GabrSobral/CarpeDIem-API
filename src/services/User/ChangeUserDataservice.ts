@@ -18,6 +18,9 @@ class ChangeUserDataService {
     let newuser: User = { ...user, ...body }
 
     if(photo) {
+      if(user.photo_url)
+        throw new Error("User already photo")
+
       await handleDeleteFromCloud.execute(user.photo_public_id)
       const fileData = await handleUploadFile(photo)
       newuser.photo_url = photo.path;
