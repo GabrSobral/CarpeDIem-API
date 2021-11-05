@@ -17,6 +17,8 @@ class ChangeUserDataService {
     
     let newuser: User = { ...user, ...body }
 
+    console.log(photo)
+
     if(photo) {
       if(user.photo_url)
         await handleDeleteFromCloud.execute(user.photo_public_id)
