@@ -36,7 +36,6 @@ class AuthenticateUser {
     if(!user)
       throw new Error("Email/password invalid status:400")
       
-    console.log(user)
     if(!await compare(password, user.password))
       throw new Error('Email/password invalid status:400')
       
