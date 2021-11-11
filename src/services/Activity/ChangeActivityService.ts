@@ -1,4 +1,5 @@
 import handleGetRepositories from "../../utils/handleGetRepositories"
+import handlePutFilesInActivities from "../../utils/handlePutFilesInActivities"
 
 interface ChangeActivityProps {
   id: string;
@@ -6,10 +7,11 @@ interface ChangeActivityProps {
   description: string;
   body: string;
   category: string;
+  user_id: string;
 }
 
 class ChangeActivityService {
-  async execute({ id, title,description, body, category }: ChangeActivityProps){
+  async execute({ id, title,description, body, category, user_id }: ChangeActivityProps){
     const { activitiesRepository } = handleGetRepositories()
     const activity = await activitiesRepository.findOne(id)
 
@@ -23,7 +25,11 @@ class ChangeActivityService {
 
     await activitiesRepository.save(activity)
 
-    return activity
+    const activityWithAllData = await activitiesRepository.findOne(id, { relations: ["JoinCategory"] })
+    const [ formattedActivity ] = await handlePutFilesInActivities(
+      { activities: [activityWithAllData], user_id, feedbackCMD: "count" })
+
+    return formattedActivity
   }
 }
 export default new ChangeActivityService()
