@@ -38,9 +38,9 @@ class ListActivitiesForMeTest {
       
       if(category === "FEEDBACK") {
         const feedbackFiltered = [];
-
+        
         goodFeedbacks.forEach((feedback) => {
-          const dontExists = orderedActivities.every((item) => item.id !== feedback.activity);
+          const dontExists = orderedActivities.every((item) => item?.id !== feedback.activity);
           dontExists && feedbackFiltered.push(feedback);
         });
 
@@ -62,12 +62,12 @@ class ListActivitiesForMeTest {
       const ActivitiesFiltered: Activity[] = [];
 
       activitiesOfCategory.forEach((activity) => {
-        const dontExists = orderedActivities.every((item) => item.id !== activity.id);
+        const dontExists = orderedActivities.every((item) => item?.id !== activity?.id);
         let leavePass = true;
 
         if((RandomInteger(0, 10) < 7) && (badFeedbacks.length !== 0)){
           const containBadFeedbacks = 
-            badFeedbacks.every((item) => item.activity === activity.id);
+            badFeedbacks.every((item) => item.activity === activity?.id);
 
           containBadFeedbacks && (leavePass = false);
         };
