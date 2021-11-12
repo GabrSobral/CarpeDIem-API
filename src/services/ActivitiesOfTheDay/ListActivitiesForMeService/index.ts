@@ -31,7 +31,8 @@ class ListActivitiesForMeTest {
     let goodFeedbacks = allFeedbacks.filter((item) => item.feedback);
     let badFeedbacks = allFeedbacks.filter((item) => !item.feedback);
 
-    const answersSum = await handleAnswersSum(user_id, !!goodFeedbacks.length);
+    const hasFeedback = goodFeedbacks.length !== 0 ? true : false;
+    const answersSum = await handleAnswersSum(user_id, hasFeedback);
 
     for (let i = 0; i < userData.quantity_of_activities; i++) {
       const category = handleRandomCategory({answersSum});
@@ -40,7 +41,7 @@ class ListActivitiesForMeTest {
         const feedbackFiltered = [];
         
         goodFeedbacks.forEach((feedback) => {
-          const dontExists = orderedActivities.every((item) => item?.id !== feedback.activity);
+          const dontExists = orderedActivities.some((item) => item?.id !== feedback.activity);
           dontExists && feedbackFiltered.push(feedback);
         });
 
