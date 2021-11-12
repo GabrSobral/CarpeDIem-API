@@ -35,50 +35,55 @@ class ListActivitiesForMeTest {
     const answersSum = await handleAnswersSum(user_id, hasFeedback);
 
     for (let i = 0; i < userData.quantity_of_activities; i++) {
-      const category = handleRandomCategory({answersSum});
+      try {
+        const category = handleRandomCategory({answersSum});
       
-      if(category === "FEEDBACK") {
-        const feedbackFiltered = [];
-        
-        goodFeedbacks.forEach((feedback) => {
-          const dontExists = orderedActivities.some((item) => item?.id !== feedback.activity);
-          dontExists && feedbackFiltered.push(feedback);
-        });
-
-        if (feedbackFiltered.length === 0){ i--;  continue; }
-
-        const randomActivityOfCategory = RandomInteger(0, feedbackFiltered.length - 1);
-
-        const activityObject = {
-          ...feedbackFiltered[randomActivityOfCategory].JoinActivity,
-          JoinCategory: feedbackFiltered[randomActivityOfCategory].JoinCategory,
+        if(category === "FEEDBACK") {
+          const feedbackFiltered = [];
+          
+          goodFeedbacks.forEach((feedback) => {
+            const dontExists = orderedActivities.some((item) => item?.id !== feedback.activity);
+            dontExists && feedbackFiltered.push(feedback);
+          });
+  
+          if (feedbackFiltered.length === 0){ i--;  continue; }
+  
+          const randomActivityOfCategory = RandomInteger(0, feedbackFiltered.length - 1);
+  
+          const activityObject = {
+            ...feedbackFiltered[randomActivityOfCategory].JoinActivity,
+            JoinCategory: feedbackFiltered[randomActivityOfCategory].JoinCategory,
+          }
+          orderedActivities.push(activityObject);
+          continue;
         }
-        orderedActivities.push(activityObject);
-        continue;
-      }
 
-      const activitiesOfCategory = await activitiesRepository
+        const activitiesOfCategory = await activitiesRepository
         .find({ where: { category }, relations: ["JoinCategory"] });
 
-      const ActivitiesFiltered: Activity[] = [];
+        const ActivitiesFiltered: Activity[] = [];
 
-      activitiesOfCategory.forEach((activity) => {
-        const dontExists = orderedActivities.every((item) => item?.id !== activity?.id);
-        let leavePass = true;
+        activitiesOfCategory.forEach((activity) => {
+          const dontExists = orderedActivities.every((item) => item?.id !== activity?.id);
+          let leavePass = true;
 
-        if((RandomInteger(0, 10) < 7) && (badFeedbacks.length !== 0)){
-          const containBadFeedbacks = 
-            badFeedbacks.every((item) => item.activity === activity?.id);
+          if((RandomInteger(0, 10) < 7) && (badFeedbacks.length !== 0)){
+            const containBadFeedbacks = 
+              badFeedbacks.every((item) => item.activity === activity?.id);
 
-          containBadFeedbacks && (leavePass = false);
-        };
-        
-        ( dontExists && leavePass) && ActivitiesFiltered.push(activity);
-      });
+            containBadFeedbacks && (leavePass = false);
+          };
+          
+          ( dontExists && leavePass ) && ActivitiesFiltered.push(activity);
+        });
 
-      const randomActivityOfCategory = RandomInteger(0, ActivitiesFiltered.length - 1);
+        const randomActivityOfCategory = RandomInteger(0, ActivitiesFiltered.length - 1);
 
-      orderedActivities.push(ActivitiesFiltered[randomActivityOfCategory]);
+        orderedActivities.push(ActivitiesFiltered[randomActivityOfCategory]);
+      } catch{
+        i--;
+        continue;
+      }
     }
     
     await handleSaveInDB.users(userData)
