@@ -1,8 +1,14 @@
 import handleGetRepositories from "../../../utils/handleGetRepositories"
 import { Answer } from '../../../entities/Answer'
 
+interface handleAnswersSumProps {
+  user_id: string;
+  removeCategory?: string[];
+  hasFeedback?: boolean;
+}
+
 class handleAnswersSum {
-  async execute(user_id: string, hasFeedback = false) {
+  async execute({user_id, removeCategory, hasFeedback}: handleAnswersSumProps) {
     const { answerRepository } = handleGetRepositories()
 
     const answers = await answerRepository.find({ where: { user: user_id } })
@@ -11,6 +17,11 @@ class handleAnswersSum {
       throw new Error('User dont have answers yet status:400');
 
     hasFeedback && answers.push({ category: 'FEEDBACK', answer: "5"} as Answer)
+    
+    removeCategory && removeCategory.forEach((item) => {
+      const index = answers.findIndex((answer => answer.category === item))
+      answers.splice(index, 1)
+    })
 
     let init = 0
 

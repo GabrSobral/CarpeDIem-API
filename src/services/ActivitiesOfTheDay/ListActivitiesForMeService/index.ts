@@ -22,6 +22,7 @@ class ListActivitiesForMeTest {
     // await handleVerifyActivityValidity(userData)
 
     const orderedActivities = []
+    const removeCategory: string[] = []
     
     const allFeedbacks = await feedbackRepository.find(
       { where: { user: user_id }, relations: ["JoinActivity", "JoinCategory"] })
@@ -30,7 +31,7 @@ class ListActivitiesForMeTest {
     let badFeedbacks = allFeedbacks.filter((item) => !item.feedback);
 
     const hasFeedback = goodFeedbacks.length !== 0 ? true : false;
-    const answersSum = await handleAnswersSum(user_id, hasFeedback);
+    let   answersSum = await handleAnswersSum({user_id, hasFeedback});
 
     for (let i = 0; i < userData.quantity_of_activities; i++) {
       const category = handleRandomCategory({answersSum});
@@ -58,18 +59,23 @@ class ListActivitiesForMeTest {
       const activitiesOfCategory = await activitiesRepository
         .find({ where: { category }, relations: ["JoinCategory"] });
 
-      if(badFeedbacks.length !== 0) {
+      if(badFeedbacks.length !== 0)
         activitiesOfCategory.forEach((activity, index) => {
-          if(orderedActivities.some((item) => item?.id === activity?.id)) { return }
+          if(orderedActivities.some((item) => item?.id === activity?.id))
+            activitiesOfCategory.splice(index, 1)
           
-          if(RandomInteger(0, 10) < 7)
-            badFeedbacks.some((item) => item.activity === activity?.id) &&
-              activitiesOfCategory.splice(index, 1)
+          if(RandomInteger(0, 10) < 8)
+            badFeedbacks.some((item) => item.activity === activity?.id) 
+              && activitiesOfCategory.splice(index, 1)
         });
+
+      if(activitiesOfCategory.length === 0) { 
+        removeCategory.push(category)
+        answersSum = await handleAnswersSum({user_id, hasFeedback, removeCategory});
+        i--; continue; 
       }
 
       const randomActivityOfCategory = RandomInteger(0, activitiesOfCategory.length - 1);
-
       orderedActivities.push(activitiesOfCategory[randomActivityOfCategory]);
     }
     await handleSaveInDB.users(userData)
