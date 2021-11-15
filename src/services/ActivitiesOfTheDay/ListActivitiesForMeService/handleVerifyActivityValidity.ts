@@ -12,9 +12,9 @@ class handleVerifyAcivityValidity{
     }
     
     // const validityDate = new Date(
-    //   activityOfTheDay[0].date.getFullYear(),     //year
-    //   activityOfTheDay[0].date.getMonth(),        //month
-    //   activityOfTheDay[0].date.getDate() + 1,     //day
+    //   user.last_activity_request.getFullYear(),   //year
+    //   user.last_activity_request.getMonth(),      //month
+    //   user.last_activity_request.getDate() + 1,   //day
     //   0,                                          //hours
     //   1,                                          //minutes
     //   0                                           //seconds
