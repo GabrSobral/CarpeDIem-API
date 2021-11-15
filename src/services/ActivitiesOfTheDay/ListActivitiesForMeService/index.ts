@@ -30,7 +30,7 @@ class ListActivitiesForMeTest {
     let goodFeedbacks = allFeedbacks.filter((item) => item.feedback);
     let badFeedbacks = allFeedbacks.filter((item) => !item.feedback);
 
-    const hasFeedback = goodFeedbacks.length !== 0 ? true : false;
+    const hasFeedback = !!goodFeedbacks.length;
     let   answersSum = await handleAnswersSum({user_id, hasFeedback});
 
     for (let i = 0; i < userData.quantity_of_activities; i++) {
@@ -40,8 +40,8 @@ class ListActivitiesForMeTest {
         const feedbackFiltered = [];
         
         goodFeedbacks.forEach((feedback) => {
-          const containGoodFeedbacks = orderedActivities.some((item) => item?.id === feedback.activity);
-          !containGoodFeedbacks && feedbackFiltered.push(feedback);
+          orderedActivities.some((item) => item?.id === feedback.activity)
+            && feedbackFiltered.push(feedback);
         });
 
         if (feedbackFiltered.length === 0){ i--;  continue; }
@@ -59,15 +59,14 @@ class ListActivitiesForMeTest {
       const activitiesOfCategory = await activitiesRepository
         .find({ where: { category }, relations: ["JoinCategory"] });
 
-      if(badFeedbacks.length !== 0)
-        activitiesOfCategory.forEach((activity, index) => {
-          if(orderedActivities.some((item) => item?.id === activity?.id))
-            activitiesOfCategory.splice(index, 1)
-          
-          if(RandomInteger(0, 10) < 8)
-            badFeedbacks.some((item) => item.activity === activity?.id) 
-              && activitiesOfCategory.splice(index, 1)
-        });
+      activitiesOfCategory.forEach((activity, index) => {
+        if(orderedActivities.some((item) => item?.id === activity?.id))
+          activitiesOfCategory.splice(index, 1)
+        
+        if((badFeedbacks.length !== 0) && (RandomInteger(0, 10) < 8))
+          badFeedbacks.some((item) => item.activity === activity?.id) 
+            && activitiesOfCategory.splice(index, 1)
+      });
 
       if(activitiesOfCategory.length === 0) { 
         removeCategory.push(category)
