@@ -16,13 +16,10 @@ class ListActivitiesForMeTest {
 
     const userData = await userRepository.findOne({ id: user_id })
 
-    if(!userData) {
-      throw new Error('User not found status:400');}
+    if(!userData) 
+      throw new Error('User not found status:400');
 
     // await handleVerifyActivityValidity(userData)
-
-    const orderedActivities = []
-    const removeCategory: string[] = []
     
     const allFeedbacks = await feedbackRepository.find(
       { where: { user: user_id }, relations: ["JoinActivity", "JoinCategory"] })
@@ -33,24 +30,25 @@ class ListActivitiesForMeTest {
     const hasFeedback = !!goodFeedbacks.length;
     let   answersSum = await handleAnswersSum({user_id, hasFeedback});
 
+    const orderedActivities = []
+    const removeCategory: string[] = []
+
     for (let i = 0; i < userData.quantity_of_activities; i++) {
       const category = handleRandomCategory({answersSum});
       
-      if( category === "FEEDBACK" ) {
-        const feedbackFiltered = [];
-        
-        goodFeedbacks.forEach((feedback) => {
+      if( category === "FEEDBACK" ) { 
+        goodFeedbacks.forEach((feedback, index) => {
           orderedActivities.some((item) => item?.id === feedback.activity)
-            && feedbackFiltered.push(feedback);
+            && goodFeedbacks.splice(index, 1);
         });
 
-        if (feedbackFiltered.length === 0){ i--;  continue; }
+        if (goodFeedbacks.length === 0){ i--;  continue; }
 
-        const randomActivityOfCategory = RandomInteger(0, feedbackFiltered.length - 1);
+        const randomActivityOfCategory = RandomInteger(0, goodFeedbacks.length - 1);
 
         const activityObject = {
-          ...feedbackFiltered[randomActivityOfCategory].JoinActivity,
-          JoinCategory: feedbackFiltered[randomActivityOfCategory].JoinCategory,
+          ...goodFeedbacks[randomActivityOfCategory].JoinActivity,
+          JoinCategory: goodFeedbacks[randomActivityOfCategory].JoinCategory,
         }
         orderedActivities.push(activityObject);
         continue;
@@ -61,7 +59,7 @@ class ListActivitiesForMeTest {
 
       activitiesOfCategory.forEach((activity, index) => {
         if(orderedActivities.some((item) => item?.id === activity?.id))
-          activitiesOfCategory.splice(index, 1)
+          activitiesOfCategory.splice(index, 1);
         
         if((badFeedbacks.length !== 0) && (RandomInteger(0, 10) < 8))
           badFeedbacks.some((item) => item.activity === activity?.id) 
