@@ -6,7 +6,7 @@ class ListMyFeedbacksService {
     const { feedbackRepository } = handleGetRepositories();
 
     const myFeedbacks = await feedbackRepository.find({
-      where: { user: user_id },
+      where: { user: user_id, feedback: true },
       relations: ['JoinActivity', 'JoinCategory']
     });
 
