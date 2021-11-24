@@ -1,14 +1,13 @@
 import { vonage } from "../../config/vonage";
 
 class SendSOSMessageService {
-  async execute(to: string,){
+  async execute(to: string, username: string){
     const text = 
     `Alerta! (essa mensagem é automática) \n
-    *Gabriel Sobral* está passando mal e o seu contato foi marcado por ele para que possa você possa oferecer uma possível ajuda.`
+    *${username}* está passando mal e o seu contato foi marcado por ele para que possa você possa oferecer uma possível ajuda.`
     const from = "14157386170"
     // const to = "5513991599324"
 
-    console.log('console hihihi: ', to)
     try {
       console.log("private key: ",process.env.VONAGE_PRIVATE_KEY_PATH)
       vonage.channel.send(

@@ -3,9 +3,9 @@ import SendSMSService from "../../services/User/SendSOSMessageService";
 
 class SendSOSMessageController {
   async handle(request: Request, response: Response) {
-    const { to } = request.body
+    const { to, username } = request.body
 
-    await SendSMSService.execute(to)
+    await SendSMSService.execute(to, username)
 
     return response.sendStatus(200)
   }
