@@ -61,7 +61,7 @@ class ListActivitiesForMeTest {
         if(orderedActivities.some((item) => item?.id === activity?.id))
           activitiesOfCategory.splice(index, 1);
         
-        if((badFeedbacks.length !== 0) && (RandomInteger(0, 10) < 8))
+        if((badFeedbacks.length !== 0) && (RandomInteger(0, 10) < 9))
           badFeedbacks.some((item) => item.activity === activity?.id) 
             && activitiesOfCategory.splice(index, 1)
       });
