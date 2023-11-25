@@ -15,7 +15,7 @@ class HandleUpdateToken {
 
     const UnixCurrentTime = new Date().getTime() / 1000
 
-    if(UnixCurrentTime > refreshToken.expires_in){
+    if(UnixCurrentTime > Number(refreshToken.expires_in)){
       await refreshTokenRepository.delete({ user_id: refreshToken.user_id })
       const newRefreshToken = await handleGenerateRefreshToken(refreshToken.user_id)
 
