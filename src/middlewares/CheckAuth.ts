@@ -23,7 +23,7 @@ export function CheckAuth(request: Request, response: Response, next: NextFuncti
   verify(token, process.env.TOKEN_SECRET, (error, decode) => {
     if(error) throw new Error(error.message)
 
-    request.user_id = decode.sub
+    request.user_id = decode.sub as string
   })
 
   next()
